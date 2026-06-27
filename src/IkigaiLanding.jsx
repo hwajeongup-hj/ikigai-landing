@@ -301,23 +301,23 @@ export default function IkigaiLanding() {
           🧩 두 원이 겹치는 곳마다 서로 다른 감정과 상태가 나타납니다.
         </p>
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', margin: '24px 0 28px 0' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: isMobile ? '12px' : '20px', margin: '24px 0 28px 0' }}>
           {ikigaiOverlaps.map((o) => (
             <div key={o.term} style={{
-              width: halfWidth,
+              width: isMobile ? 'calc(50% - 6px)' : 'calc(50% - 10px)',
               boxSizing: 'border-box',
               background: 'white',
               border: `1px solid ${o.color}33`,
               borderLeft: `4px solid ${o.color}`,
               borderRadius: '10px',
-              padding: isMobile ? '16px' : '18px',
+              padding: isMobile ? '14px' : '18px',
             }}>
               <p style={{ margin: '0 0 4px 0' }}>
-                <span style={{ fontWeight: '800', fontSize: '17px', color: o.color }}>{o.term}</span>
-                <span style={{ fontSize: '12px', color: '#9A9A9A', marginLeft: '6px', fontWeight: '600' }}>{o.en}</span>
+                <span style={{ fontWeight: '800', fontSize: isMobile ? '15px' : '17px', color: o.color }}>{o.term}</span>
+                <span style={{ fontSize: '11px', color: '#9A9A9A', marginLeft: '5px', fontWeight: '600' }}>{o.en}</span>
               </p>
-              <p style={{ margin: '0 0 8px 0', fontSize: '13px', fontWeight: '600', color: '#1A1A1A' }}>{o.formula}</p>
-              <p style={{ margin: 0, fontSize: '13px', color: '#7A7A7A', lineHeight: '1.6' }}>{o.note}</p>
+              <p style={{ margin: '0 0 8px 0', fontSize: isMobile ? '12.5px' : '13px', fontWeight: '600', color: '#1A1A1A', lineHeight: '1.5' }}>{o.formula}</p>
+              <p style={{ margin: 0, fontSize: isMobile ? '12px' : '13px', color: '#7A7A7A', lineHeight: '1.55' }}>{o.note}</p>
             </div>
           ))}
         </div>
