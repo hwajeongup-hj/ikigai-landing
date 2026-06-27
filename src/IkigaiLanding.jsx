@@ -32,6 +32,11 @@ const VENN_REGIONS = {
   vocation:   { term: '천직',   en: 'Vocation',   formula: '세상이 필요로 하는 것 + 보상받을 수 있는 것', note: '안정적이지만, 개인적인 흥미나 확신이 부족할 수 있어요.',   color: '#3B82C4', x: 242, y: 242 },
   profession: { term: '전문성', en: 'Profession', formula: '잘하는 것 + 보상받을 수 있는 것',          note: '편안하지만, 공허함이나 의미의 부재를 느낄 수 있어요.',     color: '#9B6BC4', x: 158, y: 242 },
   ikigai:     { term: '이키가이', en: 'IKIGAI',   formula: '네 가지 모두가 겹치는 곳',                note: '내가 사랑하고, 잘하고, 세상이 필요로 하며, 보상도 받을 수 있는 것. 이 모든 것이 만나는 정중앙이 바로 온전한 삶의 이유입니다.', color: '#2D9D78', x: 200, y: 200 },
+  // 4가지 요소(원) — 클릭 시 설명이 뜬다
+  love:  { term: '좋아하는 것',        en: 'What you love',           note: '시간 가는 줄 모르고 몰입하게 되는, 순수한 기쁨과 설렘을 주는 일이에요.',             color: '#E26D8A' },
+  good:  { term: '잘하는 것',          en: 'What you are good at',    note: '남들보다 수월하게 해내고, 인정받거나 성취감을 느끼는 나만의 강점과 재능이에요.',     color: '#D99323' },
+  needs: { term: '세상이 필요로 하는 것', en: 'What the world needs',    note: '사회나 타인의 삶을 더 낫게 만드는, 내가 기여하고 영향을 줄 수 있는 가치예요.',       color: '#2D9D78' },
+  paid:  { term: '보상받을 수 있는 것',   en: 'What you can be paid for', note: '능력과 시간의 대가로 수익을 만들어, 지속 가능한 삶을 가능하게 하는 현실적인 수단이에요.', color: '#3B82C4' },
 };
 
 const VENN_CIRCLES = [
@@ -51,16 +56,33 @@ function IkigaiVennDiagram({ isMobile }) {
       <svg viewBox="0 0 400 400" style={{ width: '100%', height: 'auto', display: 'block' }}>
         <g style={{ mixBlendMode: 'multiply' }}>
           {VENN_CIRCLES.map((c) => (
-            <circle key={c.key} cx={c.cx} cy={c.cy} r="108" fill={c.fill} fillOpacity="0.85" />
+            <circle
+              key={c.key}
+              cx={c.cx}
+              cy={c.cy}
+              r="108"
+              fill={c.fill}
+              fillOpacity="0.85"
+              onClick={() => setSelected(c.key)}
+              style={{ cursor: 'pointer' }}
+            />
           ))}
         </g>
 
-        {/* 바깥 개념 라벨 */}
-        <text x="200" y="66" textAnchor="middle" fontSize="14" fontWeight="700" fill="#3A3A3A">좋아하는 것</text>
-        <text x="66" y="204" textAnchor="middle" fontSize="14" fontWeight="700" fill="#3A3A3A">잘하는 것</text>
-        <text x="334" y="197" textAnchor="middle" fontSize="13" fontWeight="700" fill="#3A3A3A">세상이</text>
-        <text x="334" y="213" textAnchor="middle" fontSize="13" fontWeight="700" fill="#3A3A3A">필요로 하는 것</text>
-        <text x="200" y="332" textAnchor="middle" fontSize="14" fontWeight="700" fill="#3A3A3A">보상받는 것</text>
+        {/* 바깥 개념 라벨 (클릭) */}
+        <g onClick={() => setSelected('love')} style={{ cursor: 'pointer' }}>
+          <text x="200" y="66" textAnchor="middle" fontSize="14" fontWeight="700" fill="#3A3A3A">좋아하는 것</text>
+        </g>
+        <g onClick={() => setSelected('good')} style={{ cursor: 'pointer' }}>
+          <text x="66" y="204" textAnchor="middle" fontSize="14" fontWeight="700" fill="#3A3A3A">잘하는 것</text>
+        </g>
+        <g onClick={() => setSelected('needs')} style={{ cursor: 'pointer' }}>
+          <text x="334" y="197" textAnchor="middle" fontSize="13" fontWeight="700" fill="#3A3A3A">세상이</text>
+          <text x="334" y="213" textAnchor="middle" fontSize="13" fontWeight="700" fill="#3A3A3A">필요로 하는 것</text>
+        </g>
+        <g onClick={() => setSelected('paid')} style={{ cursor: 'pointer' }}>
+          <text x="200" y="332" textAnchor="middle" fontSize="14" fontWeight="700" fill="#3A3A3A">보상받는 것</text>
+        </g>
 
         {/* 겹치는 부분 (클릭) */}
         {pairKeys.map((key) => {
@@ -97,7 +119,7 @@ function IkigaiVennDiagram({ isMobile }) {
           👆 눌러보세요!
         </span>
         <p style={{ fontSize: '12.5px', color: '#9A9A9A', margin: '10px 0 0 0' }}>
-          겹치는 부분과 정중앙을 누르면 의미가 나타나요
+          각 원(요소)과 겹치는 부분, 정중앙을 누르면 의미가 나타나요
         </p>
       </div>
 
@@ -140,8 +162,10 @@ function IkigaiVennDiagram({ isMobile }) {
                 ×
               </button>
             </div>
-            <p style={{ margin: '10px 0 8px 0', fontSize: '14px', fontWeight: '700', color: '#1A1A1A' }}>{sel.formula}</p>
-            <p style={{ margin: 0, fontSize: '13.5px', color: '#5A5A5A', lineHeight: '1.65' }}>{sel.note}</p>
+            {sel.formula && (
+              <p style={{ margin: '10px 0 8px 0', fontSize: '14px', fontWeight: '700', color: '#1A1A1A' }}>{sel.formula}</p>
+            )}
+            <p style={{ margin: `${sel.formula ? 0 : 10}px 0 0 0`, fontSize: '13.5px', color: '#5A5A5A', lineHeight: '1.65' }}>{sel.note}</p>
           </div>
         </div>
       )}
@@ -187,49 +211,6 @@ export default function IkigaiLanding() {
     paddingBottom: '8px',
     display: 'inline-block',
   };
-  // 카드가 2열(데스크톱)/1열(모바일)로 배치되도록
-  const halfWidth = isMobile ? '100%' : 'calc(50% - 10px)';
-
-  // 이키가이를 구성하는 4가지 질문
-  const ikigaiQuestions = [
-    {
-      no: '1',
-      en: 'What you love',
-      title: '내가 사랑하는 것',
-      items: [
-        '시간 가는 줄 모르고 몰입하게 되는 일은 무엇인가?',
-        '나의 심장을 뛰게 하고 순수한 기쁨을 주는 활동은 무엇인가?',
-      ],
-    },
-    {
-      no: '2',
-      en: 'What you are good at',
-      title: '내가 잘하는 것',
-      items: [
-        '남들보다 수월하게 해낼 수 있는 나만의 강점과 재능은 무엇인가?',
-        '타인에게 인정받거나 스스로 성취감을 느끼는 능력은 무엇인가?',
-      ],
-    },
-    {
-      no: '3',
-      en: 'What the world needs',
-      title: '세상이 필요로 하는 것',
-      items: [
-        '사회나 타인의 삶을 더 낫게 만들기 위해 필요한 가치는 무엇인가?',
-        '내가 기여할 수 있는 문제 해결이나 긍정적인 영향력은 무엇인가?',
-      ],
-    },
-    {
-      no: '4',
-      en: 'What you can be paid for',
-      title: '보상받을 수 있는 것',
-      items: [
-        '나의 능력과 시간의 대가로 경제적 수익을 창출할 수 있는 일은 무엇인가?',
-        '지속 가능한 삶을 유지하게 해주는 현실적인 수단은 무엇인가?',
-      ],
-    },
-  ];
-
   // 문제 제기 섹션 통계
   const anxietyStats = [
     { big: '10명 중 7명', who: '청년', quote: '"나의 적성을 모른다"' },
@@ -350,56 +331,9 @@ export default function IkigaiLanding() {
 
       {/* IKIGAI Deep Dive Section */}
       <section style={{ padding: sectionPad, background: 'white' }}>
-        <h3 style={headingStyle}>이키가이를 구성하는 4가지 질문</h3>
+        <h3 style={headingStyle}>이키가이를 구성하는 4가지 요소</h3>
         <p style={{ fontSize: '14px', color: '#5A5A5A', lineHeight: '1.7', margin: '12px 0 0 0' }}>
-          💡 네 가지 질문에 하나씩 답하다 보면, 흩어져 있던 '나'의 조각들이 서서히 하나로 모입니다.
-        </p>
-
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', margin: '24px 0 48px 0' }}>
-          {ikigaiQuestions.map((q) => (
-            <div key={q.no} style={{
-              width: halfWidth,
-              boxSizing: 'border-box',
-              background: '#FAFAFA',
-              border: '1px solid #ECECEC',
-              borderRadius: '12px',
-              padding: isMobile ? '18px' : '22px',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                <span style={{
-                  flexShrink: 0,
-                  width: '28px',
-                  height: '28px',
-                  borderRadius: '50%',
-                  background: '#2D9D78',
-                  color: 'white',
-                  fontWeight: '700',
-                  fontSize: '14px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                  {q.no}
-                </span>
-                <div>
-                  <p style={{ margin: 0, fontWeight: '700', fontSize: '16px', color: '#1A1A1A' }}>{q.title}</p>
-                  <p style={{ margin: 0, fontSize: '12px', color: '#9A9A9A', fontWeight: '500' }}>{q.en}</p>
-                </div>
-              </div>
-              <ul style={{ margin: '8px 0 0 0', paddingLeft: '18px' }}>
-                {q.items.map((item, i) => (
-                  <li key={i} style={{ fontSize: '13.5px', color: '#5A5A5A', lineHeight: '1.6', marginBottom: '6px' }}>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <h3 style={headingStyle}>4가지 요소가 만나는 교집합</h3>
-        <p style={{ fontSize: '14px', color: '#5A5A5A', lineHeight: '1.7', margin: '12px 0 0 0' }}>
-          🧩 두 원이 겹치는 곳마다 서로 다른 감정과 상태가 나타납니다.
+          💡 네 가지 요소(원)와 그것들이 겹치는 부분, 그리고 정중앙을 눌러 의미를 확인해 보세요.
         </p>
 
         <div style={{ margin: '28px 0' }}>
@@ -503,14 +437,19 @@ export default function IkigaiLanding() {
 
         <div style={{
           display: 'flex',
-          flexDirection: isMobile ? 'column' : 'row',
-          gap: '20px',
+          flexDirection: 'row',
+          gap: '16px',
           maxWidth: '900px',
           margin: '0 auto',
+          overflowX: isMobile ? 'auto' : 'visible',
+          scrollSnapType: isMobile ? 'x mandatory' : undefined,
+          WebkitOverflowScrolling: 'touch',
+          paddingBottom: isMobile ? '6px' : 0,
         }}>
           {workbookTypes.map((t) => (
             <div key={t.tag} style={{
-              flex: 1,
+              flex: isMobile ? '0 0 80%' : '1',
+              scrollSnapAlign: isMobile ? 'center' : undefined,
               background: 'white',
               border: '1px solid #ECECEC',
               borderRadius: '16px',
@@ -547,6 +486,11 @@ export default function IkigaiLanding() {
             </div>
           ))}
         </div>
+        {isMobile && (
+          <p style={{ fontSize: '12.5px', color: '#9A9A9A', margin: '14px 0 0 0' }}>
+            ← 옆으로 넘겨보세요 →
+          </p>
+        )}
       </section>
 
       {/* Our Workbook Section */}
