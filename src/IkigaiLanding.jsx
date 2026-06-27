@@ -78,9 +78,25 @@ function IkigaiVennDiagram({ isMobile }) {
         </g>
       </svg>
 
-      <p style={{ textAlign: 'center', fontSize: '13px', color: '#9A9A9A', margin: '8px 0 0 0' }}>
-        👆 겹치는 부분을 눌러 의미를 확인해 보세요
-      </p>
+      <style>{`@keyframes ikigaiPulse {0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}`}</style>
+      <div style={{ textAlign: 'center', marginTop: '12px' }}>
+        <span style={{
+          display: 'inline-block',
+          background: '#2D9D78',
+          color: 'white',
+          fontWeight: '700',
+          fontSize: '14px',
+          padding: '7px 16px',
+          borderRadius: '999px',
+          boxShadow: '0 4px 12px rgba(45, 157, 120, 0.35)',
+          animation: 'ikigaiPulse 1.6s ease-in-out infinite',
+        }}>
+          👆 눌러보세요!
+        </span>
+        <p style={{ fontSize: '12.5px', color: '#9A9A9A', margin: '10px 0 0 0' }}>
+          겹치는 부분과 정중앙을 누르면 의미가 나타나요
+        </p>
+      </div>
 
       {sel && (
         <div
@@ -211,6 +227,19 @@ export default function IkigaiLanding() {
     },
   ];
 
+  // 문제 제기 섹션 통계
+  const anxietyStats = [
+    { big: '10명 중 7명', who: '청년', quote: '"나의 적성을 모른다"' },
+    { big: '3명 중 1명', who: '신입사원', quote: '"적성 불일치로 1년 내 퇴사"' },
+  ];
+
+  // 3가지 맞춤형 가이드 유형
+  const workbookTypes = [
+    { tag: 'TYPE A', name: '탐험가형 가이드', desc: '아직 내가 뭘 좋아하는지 모르겠다면, 흥미와 관심사부터 차근차근 탐색합니다.', accent: '#E8743B' },
+    { tag: 'TYPE B', name: '도전가형 가이드', desc: '잘하는 것을 무기로 만들고 싶다면, 흩어진 재능과 강점을 경쟁력으로 정리합니다.', accent: '#9B6BC4' },
+    { tag: 'TYPE C', name: '연결가형 가이드', desc: '의미 있는 일을 찾고 싶다면, 세상과 연결되는 지점에서 삶의 방향을 설계합니다.', accent: '#3B82C4' },
+  ];
+
   return (
     <div style={{ fontFamily: 'system-ui, -apple-system, sans-serif', overflowX: 'hidden' }}>
       {/* Hero Section */}
@@ -297,53 +326,22 @@ export default function IkigaiLanding() {
           What is IKIGAI?
         </h3>
 
-        {/* Top Row */}
-        <div style={{ ...twoColRow, margin: '30px 0' }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', flex: 1 }}>
-            <CompassIcon />
-            <div>
-              <p style={{ margin: '0 0 8px 0', fontWeight: '600', fontSize: '15px' }}>
-                이키가이(生き甲斐), 매일 아침 나를 일어나게 하는 '삶의 이유'
-              </p>
-            </div>
-          </div>
-          <div style={{
-            flex: 1,
-            background: '#F8F8F8',
-            padding: '16px',
-            borderRadius: '8px',
-            fontSize: '14px',
-            color: '#5A5A5A',
-            lineHeight: '1.6',
-          }}>
-            <strong>좋아하는 것</strong> · <strong>잘하는 것</strong> · <strong>세상이 필요로 하는 것</strong> · <strong>돈이 되는 것</strong>
-            <br /><br />
-            이 네 가지가 겹치는 그 중심에, 바로 '당신만의 이유'가 있습니다.
-          </div>
-        </div>
-
-        {/* Bottom Row */}
-        <div style={twoColRow}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', flex: 1 }}>
-            <ClockIcon />
-            <div>
-              <p style={{ margin: '0 0 8px 0', fontWeight: '600', fontSize: '15px' }}>
-                이 워크북을 통해 당신이 얻게 될 것
-              </p>
-            </div>
-          </div>
-          <div style={{
-            flex: 1,
-            background: '#D4E8E0',
-            padding: '16px',
-            borderRadius: '8px',
-            fontSize: '14px',
-            color: '#2D9D78',
-            fontWeight: '600',
-            lineHeight: '1.6',
-          }}>
-            진정으로 사랑하는 것을 발견하고, 나만의 재능과 강점을 알아차리며, 세상에 기여할 수 있는 역할을 찾습니다. 그리고 이 모든 것을 하나로 모아, 앞으로 나아갈 삶의 방향을 세우게 됩니다.
-          </div>
+        <div style={{
+          margin: '28px 0 0 0',
+          background: 'white',
+          border: '1px solid #ECECEC',
+          borderRadius: '12px',
+          padding: isMobile ? '22px' : '32px',
+        }}>
+          <p style={{ margin: 0, fontSize: '15px', color: '#4A4A4A', lineHeight: '1.85' }}>
+            이키가이(生き甲斐)는 <strong style={{ color: '#1A1A1A' }}>'삶(Iki)'</strong>과 <strong style={{ color: '#1A1A1A' }}>'가치 또는 보람(Gai)'</strong>이 합쳐진 단어로, <strong style={{ color: '#2D9D78' }}>'내가 아침에 눈을 뜨는 이유'</strong>, 즉 개인의 삶의 목적과 의미를 뜻하는 개념입니다.
+          </p>
+          <p style={{ margin: '14px 0 0 0', fontSize: '15px', color: '#4A4A4A', lineHeight: '1.85' }}>
+            단순히 직업적인 성공이나 경제적 부를 넘어, <strong style={{ color: '#1A1A1A' }}>내면의 만족감</strong>과 <strong style={{ color: '#1A1A1A' }}>현실적인 지속 가능성</strong>이 완벽하게 균형을 이루는 상태를 의미합니다.
+          </p>
+          <p style={{ margin: '20px 0 0 0', fontSize: '15px', fontWeight: '700', color: '#2D9D78', lineHeight: '1.6' }}>
+            이키가이는 다음 4가지 핵심 요소의 교집합에서 발견됩니다. 👇
+          </p>
         </div>
       </section>
 
@@ -432,6 +430,125 @@ export default function IkigaiLanding() {
         </div>
       </section>
 
+      {/* Problem Section */}
+      <section style={{ padding: isMobile ? `56px ${padX}` : '80px 60px', background: '#1A1A1A' }}>
+        <h3 style={{
+          fontSize: isMobile ? '22px' : '28px',
+          fontWeight: '800',
+          color: 'white',
+          textAlign: 'center',
+          margin: '0 0 36px 0',
+          lineHeight: '1.4',
+        }}>
+          우리가 불안함을 느끼는 이유가 뭘까?
+        </h3>
+
+        <div style={{
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          gap: '16px',
+          maxWidth: '720px',
+          margin: '0 auto',
+        }}>
+          {anxietyStats.map((s) => (
+            <div key={s.who} style={{
+              flex: 1,
+              background: '#262626',
+              border: '1px solid #383838',
+              borderRadius: '14px',
+              padding: isMobile ? '22px' : '28px',
+              textAlign: 'center',
+            }}>
+              <p style={{ margin: '0 0 6px 0', fontSize: '13px', color: '#9A9A9A', fontWeight: '600' }}>{s.who}</p>
+              <p style={{ margin: '0 0 12px 0', fontSize: isMobile ? '26px' : '30px', fontWeight: '900', color: '#FFB84D' }}>{s.big}</p>
+              <p style={{ margin: 0, fontSize: '15px', color: '#E5E5E5', fontWeight: '600' }}>{s.quote}</p>
+            </div>
+          ))}
+        </div>
+
+        <p style={{
+          textAlign: 'center',
+          fontSize: isMobile ? '16px' : '18px',
+          color: 'white',
+          fontWeight: '700',
+          margin: '36px 0 0 0',
+          lineHeight: '1.6',
+        }}>
+          결국 문제는 <span style={{ color: '#2D9D78' }}>'나를 모른다는 것'</span>에서 시작됩니다.
+        </p>
+      </section>
+
+      {/* Bridge + Workbook Types Section */}
+      <section style={{ padding: sectionPad, background: '#FAFAFA', textAlign: 'center' }}>
+        <p style={{ fontSize: '15px', color: '#9A9A9A', fontWeight: '600', margin: '0 0 8px 0' }}>
+          그래서 준비했습니다.
+        </p>
+        <h3 style={{
+          fontSize: isMobile ? '22px' : '28px',
+          fontWeight: '800',
+          color: '#1A1A1A',
+          margin: '0 0 12px 0',
+          lineHeight: '1.4',
+        }}>
+          당신의 <span style={{ color: '#2D9D78' }}>'진짜 나'</span>를 찾아줄<br />
+          3가지 맞춤형 가이드
+        </h3>
+        <p style={{ fontSize: '15px', color: '#5A5A5A', lineHeight: '1.7', margin: '0 0 40px 0' }}>
+          성향에 맞는 가이드를 골라, 진정으로 사랑하는 것을 발견하고<br style={{ display: isMobile ? 'none' : 'block' }} />
+          나만의 강점으로 앞으로 나아갈 삶의 방향을 세워보세요.
+        </p>
+
+        <div style={{
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          gap: '20px',
+          maxWidth: '900px',
+          margin: '0 auto',
+        }}>
+          {workbookTypes.map((t) => (
+            <div key={t.tag} style={{
+              flex: 1,
+              background: 'white',
+              border: '1px solid #ECECEC',
+              borderRadius: '16px',
+              overflow: 'hidden',
+              boxShadow: '0 6px 20px rgba(0, 0, 0, 0.05)',
+              textAlign: 'left',
+            }}>
+              {/* 목업 미리보기 (실제 이미지로 교체 가능) */}
+              <div style={{
+                height: '160px',
+                background: `linear-gradient(135deg, ${t.accent}22 0%, ${t.accent}0D 100%)`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderBottom: `1px solid ${t.accent}22`,
+              }}>
+                <div style={{
+                  width: '92px',
+                  height: '120px',
+                  background: 'white',
+                  borderRadius: '6px',
+                  boxShadow: '0 8px 20px rgba(0, 0, 0, 0.12)',
+                  padding: '12px',
+                  boxSizing: 'border-box',
+                }}>
+                  <div style={{ width: '70%', height: '8px', background: t.accent, borderRadius: '4px', marginBottom: '10px' }} />
+                  <div style={{ width: '100%', height: '5px', background: '#EAEAEA', borderRadius: '3px', marginBottom: '6px' }} />
+                  <div style={{ width: '100%', height: '5px', background: '#EAEAEA', borderRadius: '3px', marginBottom: '6px' }} />
+                  <div style={{ width: '60%', height: '5px', background: '#EAEAEA', borderRadius: '3px' }} />
+                </div>
+              </div>
+              <div style={{ padding: '20px' }}>
+                <span style={{ fontSize: '12px', fontWeight: '800', color: t.accent, letterSpacing: '0.5px' }}>{t.tag}</span>
+                <p style={{ margin: '6px 0 8px 0', fontSize: '17px', fontWeight: '800', color: '#1A1A1A' }}>{t.name}</p>
+                <p style={{ margin: 0, fontSize: '13.5px', color: '#5A5A5A', lineHeight: '1.6' }}>{t.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Our Workbook Section */}
       <section style={{
         background: 'linear-gradient(135deg, #FFF8E8 0%, #F0E5FF 100%)',
@@ -439,19 +556,37 @@ export default function IkigaiLanding() {
         textAlign: 'center',
       }}>
         <p style={{ fontSize: '18px', fontWeight: '700', color: '#2D9D78', margin: '0 0 16px 0' }}>
-          🎁 2026년 6월 선착순 100명 한정 · 완전 무료
+          🎁 2026년 6월 선착순 100명 한정 · 무료 이벤트
         </p>
-        <p style={{ fontSize: '16px', color: '#5A5A5A', lineHeight: '1.6', marginBottom: '32px' }}>
-          3가지 유형의 워크북 중에서 당신의 성향에 맞는 것을 선택하고...
-        </p>
+        <div style={{
+          display: 'inline-block',
+          background: 'white',
+          border: '2px dashed #FFB84D',
+          borderRadius: '14px',
+          padding: isMobile ? '18px 22px' : '20px 32px',
+          margin: '0 auto',
+        }}>
+          <p style={{ margin: 0, fontSize: isMobile ? '16px' : '19px', fontWeight: '800', color: '#1A1A1A', lineHeight: '1.5' }}>
+            🎫 전문가의 이키가이 분석 <span style={{ color: '#E8743B' }}>체험권</span>
+          </p>
+          <p style={{ margin: '6px 0 0 0', fontSize: isMobile ? '14px' : '15px', fontWeight: '700', color: '#2D9D78' }}>
+            신청자 중 추첨을 통해 증정!
+          </p>
+        </div>
       </section>
 
       {/* CTA Section */}
       <section style={{
         background: 'linear-gradient(135deg, #FFF8E8 0%, #F0E5FF 100%)',
-        padding: sectionPad,
+        padding: isMobile ? `8px ${padX} 48px` : '8px 60px 64px',
         textAlign: 'center',
       }}>
+        <p style={{ fontSize: isMobile ? '17px' : '20px', fontWeight: '800', color: '#1A1A1A', margin: '0 0 6px 0', lineHeight: '1.5' }}>
+          지금 신청하고 가장 먼저 만나보세요
+        </p>
+        <p style={{ fontSize: '14px', color: '#5A5A5A', margin: '0 0 24px 0' }}>
+          이메일을 남겨주시면 오픈 소식과 체험권 추첨 결과를 보내드려요.
+        </p>
         <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: '0 auto' }}>
           <input
             type="email"
