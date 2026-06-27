@@ -477,22 +477,22 @@ export default function IkigaiLanding() {
             }}>
               {/* 워크북 표지 목업 */}
               <div style={{
-                background: `linear-gradient(160deg, ${t.accent}1F 0%, ${t.accent}0A 100%)`,
-                padding: isMobile ? '26px 26px 0 26px' : '30px 30px 0 30px',
+                background: `linear-gradient(160deg, ${t.accent}14 0%, ${t.accent}05 100%)`,
+                padding: isMobile ? '28px 28px 22px 28px' : '34px 34px 28px 34px',
                 display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'flex-end',
+                alignItems: 'center',
               }}>
                 <img
                   src={t.img}
                   alt={`${t.name} 가이드북 표지`}
                   style={{
                     width: '100%',
-                    maxWidth: '210px',
+                    maxWidth: '200px',
                     height: 'auto',
                     display: 'block',
-                    borderRadius: '6px',
-                    boxShadow: '0 12px 26px rgba(0, 0, 0, 0.18)',
+                    borderRadius: '4px',
+                    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.12), 0 18px 38px rgba(0, 0, 0, 0.18)',
                   }}
                 />
               </div>
