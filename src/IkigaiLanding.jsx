@@ -22,6 +22,114 @@ const ClockIcon = () => {
   );
 };
 
+// 인터랙티브 이키가이 벤다이어그램 — 겹치는 부분/정중앙을 누르면 설명 팝업이 뜬다
+const VENN_REGIONS = {
+  passion:    { term: '열정',   en: 'Passion',    formula: '좋아하는 것 + 잘하는 것',                note: '만족스럽지만, 세상에 기여하거나 돈이 되지 않을 수 있어요.', color: '#E8743B', x: 158, y: 158 },
+  mission:    { term: '사명',   en: 'Mission',    formula: '좋아하는 것 + 세상이 필요로 하는 것',     note: '보람차지만, 경제적 보상이 따르지 않을 수 있어요.',         color: '#2D9D78', x: 242, y: 158 },
+  vocation:   { term: '천직',   en: 'Vocation',   formula: '세상이 필요로 하는 것 + 보상받을 수 있는 것', note: '안정적이지만, 개인적인 흥미나 확신이 부족할 수 있어요.',   color: '#3B82C4', x: 242, y: 242 },
+  profession: { term: '전문성', en: 'Profession', formula: '잘하는 것 + 보상받을 수 있는 것',          note: '편안하지만, 공허함이나 의미의 부재를 느낄 수 있어요.',     color: '#9B6BC4', x: 158, y: 242 },
+  ikigai:     { term: '이키가이', en: 'IKIGAI',   formula: '네 가지 모두가 겹치는 곳',                note: '내가 사랑하고, 잘하고, 세상이 필요로 하며, 보상도 받을 수 있는 것. 이 모든 것이 만나는 정중앙이 바로 온전한 삶의 이유입니다.', color: '#2D9D78', x: 200, y: 200 },
+};
+
+const VENN_CIRCLES = [
+  { key: 'love',  label: '좋아하는 것',  cx: 200, cy: 122, fill: '#F7A8B8' },
+  { key: 'good',  label: '잘하는 것',    cx: 122, cy: 200, fill: '#FBD38D' },
+  { key: 'needs', label: '필요로 하는 것', cx: 278, cy: 200, fill: '#9AE6B4' },
+  { key: 'paid',  label: '보상받는 것',  cx: 200, cy: 278, fill: '#90CDF4' },
+];
+
+function IkigaiVennDiagram({ isMobile }) {
+  const [selected, setSelected] = useState(null);
+  const sel = selected ? VENN_REGIONS[selected] : null;
+  const pairKeys = ['passion', 'mission', 'vocation', 'profession'];
+
+  return (
+    <div style={{ position: 'relative', maxWidth: '440px', margin: '0 auto' }}>
+      <svg viewBox="0 0 400 400" style={{ width: '100%', height: 'auto', display: 'block' }}>
+        <g style={{ mixBlendMode: 'multiply' }}>
+          {VENN_CIRCLES.map((c) => (
+            <circle key={c.key} cx={c.cx} cy={c.cy} r="108" fill={c.fill} fillOpacity="0.85" />
+          ))}
+        </g>
+
+        {/* 바깥 개념 라벨 */}
+        <text x="200" y="66" textAnchor="middle" fontSize="14" fontWeight="700" fill="#3A3A3A">좋아하는 것</text>
+        <text x="66" y="204" textAnchor="middle" fontSize="14" fontWeight="700" fill="#3A3A3A">잘하는 것</text>
+        <text x="334" y="197" textAnchor="middle" fontSize="13" fontWeight="700" fill="#3A3A3A">세상이</text>
+        <text x="334" y="213" textAnchor="middle" fontSize="13" fontWeight="700" fill="#3A3A3A">필요로 하는 것</text>
+        <text x="200" y="332" textAnchor="middle" fontSize="14" fontWeight="700" fill="#3A3A3A">보상받는 것</text>
+
+        {/* 겹치는 부분 (클릭) */}
+        {pairKeys.map((key) => {
+          const r = VENN_REGIONS[key];
+          const isSel = selected === key;
+          return (
+            <g key={key} onClick={() => setSelected(key)} style={{ cursor: 'pointer' }}>
+              <circle cx={r.x} cy={r.y} r={isSel ? 25 : 22} fill="#FFFFFF" fillOpacity="0.95" stroke={r.color} strokeWidth={isSel ? 3 : 2.2} />
+              <text x={r.x} y={r.y} textAnchor="middle" dominantBaseline="central" fontSize={r.term.length > 2 ? 10 : 12} fontWeight="800" fill={r.color}>{r.term}</text>
+            </g>
+          );
+        })}
+
+        {/* 정중앙 이키가이 (클릭) */}
+        <g onClick={() => setSelected('ikigai')} style={{ cursor: 'pointer' }}>
+          <circle cx="200" cy="200" r={selected === 'ikigai' ? 30 : 27} fill="#2D9D78" stroke="#FFFFFF" strokeWidth="2.5" />
+          <text x="200" y="200" textAnchor="middle" dominantBaseline="central" fontSize="10.5" fontWeight="800" fill="#FFFFFF">이키가이</text>
+        </g>
+      </svg>
+
+      <p style={{ textAlign: 'center', fontSize: '13px', color: '#9A9A9A', margin: '8px 0 0 0' }}>
+        👆 겹치는 부분을 눌러 의미를 확인해 보세요
+      </p>
+
+      {sel && (
+        <div
+          onClick={() => setSelected(null)}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'rgba(0, 0, 0, 0.35)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '12px',
+            padding: '16px',
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: 'white',
+              borderRadius: '14px',
+              padding: isMobile ? '18px' : '22px',
+              maxWidth: '300px',
+              width: '100%',
+              boxShadow: '0 12px 40px rgba(0, 0, 0, 0.22)',
+              borderTop: `4px solid ${sel.color}`,
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>
+                <span style={{ fontWeight: '800', fontSize: '20px', color: sel.color }}>{sel.term}</span>
+                <span style={{ fontSize: '12px', color: '#9A9A9A', marginLeft: '6px', fontWeight: '600' }}>{sel.en}</span>
+              </div>
+              <button
+                onClick={() => setSelected(null)}
+                aria-label="닫기"
+                style={{ border: 'none', background: 'none', fontSize: '22px', cursor: 'pointer', color: '#9A9A9A', lineHeight: 1, padding: 0 }}
+              >
+                ×
+              </button>
+            </div>
+            <p style={{ margin: '10px 0 8px 0', fontSize: '14px', fontWeight: '700', color: '#1A1A1A' }}>{sel.formula}</p>
+            <p style={{ margin: 0, fontSize: '13.5px', color: '#5A5A5A', lineHeight: '1.65' }}>{sel.note}</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function IkigaiLanding() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -101,14 +209,6 @@ export default function IkigaiLanding() {
         '지속 가능한 삶을 유지하게 해주는 현실적인 수단은 무엇인가?',
       ],
     },
-  ];
-
-  // 4가지 요소가 만나는 교집합
-  const ikigaiOverlaps = [
-    { term: '열정', en: 'Passion', formula: '사랑하는 것 + 잘하는 것', note: '만족스럽지만, 세상에 기여하거나 돈이 되지 않을 수 있음', color: '#E8743B' },
-    { term: '사명', en: 'Mission', formula: '사랑하는 것 + 세상이 필요로 하는 것', note: '보람차지만, 경제적 보상이 따르지 않을 수 있음', color: '#2D9D78' },
-    { term: '천직', en: 'Vocation', formula: '세상이 필요로 하는 것 + 보상받을 수 있는 것', note: '안정적이지만, 개인적인 흥미나 확신이 부족할 수 있음', color: '#3B82C4' },
-    { term: '전문성', en: 'Profession', formula: '잘하는 것 + 보상받을 수 있는 것', note: '편안하지만, 공허함이나 의미의 부재를 느낄 수 있음', color: '#9B6BC4' },
   ];
 
   return (
@@ -301,25 +401,8 @@ export default function IkigaiLanding() {
           🧩 두 원이 겹치는 곳마다 서로 다른 감정과 상태가 나타납니다.
         </p>
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: isMobile ? '12px' : '20px', margin: '24px 0 28px 0' }}>
-          {ikigaiOverlaps.map((o) => (
-            <div key={o.term} style={{
-              width: isMobile ? 'calc(50% - 6px)' : 'calc(50% - 10px)',
-              boxSizing: 'border-box',
-              background: 'white',
-              border: `1px solid ${o.color}33`,
-              borderLeft: `4px solid ${o.color}`,
-              borderRadius: '10px',
-              padding: isMobile ? '14px' : '18px',
-            }}>
-              <p style={{ margin: '0 0 4px 0' }}>
-                <span style={{ fontWeight: '800', fontSize: isMobile ? '15px' : '17px', color: o.color }}>{o.term}</span>
-                <span style={{ fontSize: '11px', color: '#9A9A9A', marginLeft: '5px', fontWeight: '600' }}>{o.en}</span>
-              </p>
-              <p style={{ margin: '0 0 8px 0', fontSize: isMobile ? '12.5px' : '13px', fontWeight: '600', color: '#1A1A1A', lineHeight: '1.5' }}>{o.formula}</p>
-              <p style={{ margin: 0, fontSize: isMobile ? '12px' : '13px', color: '#7A7A7A', lineHeight: '1.55' }}>{o.note}</p>
-            </div>
-          ))}
+        <div style={{ margin: '28px 0' }}>
+          <IkigaiVennDiagram isMobile={isMobile} />
         </div>
 
         <div style={{
