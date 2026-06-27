@@ -111,70 +111,6 @@ export default function IkigaiLanding() {
         </div>
       </section>
 
-      {/* Prologue Section */}
-      <section style={{ padding: sectionPad, background: 'white' }}>
-        <h3 style={{
-          fontSize: '20px',
-          fontWeight: '700',
-          color: '#1A1A1A',
-          margin: '0 0 8px 0',
-          borderBottom: '2px solid #2D9D78',
-          paddingBottom: '8px',
-          display: 'inline-block',
-        }}>
-          Prologue. 여정을 시작하며
-        </h3>
-
-        {/* Top Row */}
-        <div style={{ ...twoColRow, margin: '30px 0' }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', flex: 1 }}>
-            <CompassIcon />
-            <div>
-              <p style={{ margin: '0 0 8px 0', fontWeight: '600', fontSize: '15px' }}>
-                당신의 색깔을 찾는 여정
-              </p>
-            </div>
-          </div>
-          <div style={{
-            flex: 1,
-            background: '#F8F8F8',
-            padding: '16px',
-            borderRadius: '8px',
-            fontSize: '14px',
-            color: '#5A5A5A',
-            lineHeight: '1.6',
-          }}>
-            <p style={{ margin: 0 }}>
-              "당신이 누구인지 알기 위해 먼저 어디서 왔는지 알아야 한다"
-            </p>
-          </div>
-        </div>
-
-        {/* Bottom Row */}
-        <div style={twoColRow}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', flex: 1 }}>
-            <ClockIcon />
-            <div>
-              <p style={{ margin: '0 0 8px 0', fontWeight: '600', fontSize: '15px' }}>
-                이 여정은 빨리 하는 것 '킹의가' 충요합니다.
-              </p>
-            </div>
-          </div>
-          <div style={{
-            flex: 1,
-            background: '#D4E8E0',
-            padding: '16px',
-            borderRadius: '8px',
-            fontSize: '14px',
-            color: '#2D9D78',
-            fontWeight: '600',
-            lineHeight: '1.6',
-          }}>
-            잣 이제 당신의 이야기를 시작해봅시다.
-          </div>
-        </div>
-      </section>
-
       {/* What is IKIGAI Section */}
       <section style={{ padding: sectionPad, background: '#FAFAFA' }}>
         <h3 style={{
@@ -195,7 +131,7 @@ export default function IkigaiLanding() {
             <CompassIcon />
             <div>
               <p style={{ margin: '0 0 8px 0', fontWeight: '600', fontSize: '15px' }}>
-                이키가이(生き甲斐)는 일본의 개념으로...
+                이키가이(生き甲斐), 매일 아침 나를 일어나게 하는 '삶의 이유'
               </p>
             </div>
           </div>
@@ -208,9 +144,9 @@ export default function IkigaiLanding() {
             color: '#5A5A5A',
             lineHeight: '1.6',
           }}>
-            <strong>당신이 좋아하는 것</strong> · <strong>잘하는 것</strong> · <strong>세상이 필요로 하는 것</strong> · <strong>돈을 받을 수 있는 것</strong>
+            <strong>좋아하는 것</strong> · <strong>잘하는 것</strong> · <strong>세상이 필요로 하는 것</strong> · <strong>돈이 되는 것</strong>
             <br /><br />
-            이 4가지가 겹치는 중심에 있는 '당신만의 이유'를 찾는 것입니다.
+            이 네 가지가 겹치는 그 중심에, 바로 '당신만의 이유'가 있습니다.
           </div>
         </div>
 
@@ -220,7 +156,7 @@ export default function IkigaiLanding() {
             <ClockIcon />
             <div>
               <p style={{ margin: '0 0 8px 0', fontWeight: '600', fontSize: '15px' }}>
-                이키가이를 통해
+                이 워크북을 통해 당신이 얻게 될 것
               </p>
             </div>
           </div>
@@ -234,7 +170,7 @@ export default function IkigaiLanding() {
             fontWeight: '600',
             lineHeight: '1.6',
           }}>
-            이 워크북을 통해 당신은 당신이 진정으로 사랑하는 것 발견하고, 당신이 가진 독특한 재능과 강점을 인식하며, 세상에 기여할 수 있는 당신만의 역할을 발견하고, 이 모든 것을 종합하여 설정 방향성을 설정하게 됩니다.
+            진정으로 사랑하는 것을 발견하고, 나만의 재능과 강점을 알아차리며, 세상에 기여할 수 있는 역할을 찾습니다. 그리고 이 모든 것을 하나로 모아, 앞으로 나아갈 삶의 방향을 세우게 됩니다.
           </div>
         </div>
       </section>
