@@ -629,6 +629,65 @@ export default function IkigaiLanding() {
         )}
       </section>
 
+      {/* Reference Video Section */}
+      <section style={{ padding: sectionPad, background: 'white' }}>
+        <div style={{ maxWidth: '720px', margin: '0 auto', textAlign: 'center' }}>
+          <span style={{
+            display: 'inline-block',
+            background: '#F0F0F0',
+            color: '#5A5A5A',
+            fontWeight: '700',
+            fontSize: '12px',
+            padding: '5px 12px',
+            borderRadius: '999px',
+            letterSpacing: '0.5px',
+          }}>
+            참고 영상
+          </span>
+          <h3 style={{
+            fontSize: isMobile ? '20px' : '24px',
+            fontWeight: '800',
+            color: '#1A1A1A',
+            margin: '12px 0 0 0',
+            lineHeight: '1.4',
+          }}>
+            이키가이, 영상으로 더 알아보기
+          </h3>
+
+          <div style={{
+            position: 'relative',
+            paddingBottom: '56.25%',
+            height: 0,
+            margin: '22px 0 14px 0',
+            borderRadius: '14px',
+            overflow: 'hidden',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.12)',
+          }}>
+            <iframe
+              src="https://www.youtube.com/embed/qQdZTVwzXWY"
+              title="이키가이 테스트! 오늘 당신의 목적을 찾으십시오!"
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </div>
+
+          <p style={{ fontSize: '12.5px', color: '#9A9A9A', lineHeight: '1.7', margin: 0 }}>
+            출처: YouTube ‘IKIGAI test’ 채널 —{' '}
+            <a
+              href="https://youtu.be/qQdZTVwzXWY"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: '#2D9D78', fontWeight: '600' }}
+            >
+              이키가이 테스트! 오늘 당신의 목적을 찾으십시오!
+            </a>
+            <br />
+            본 영상은 이해를 돕기 위한 참고 자료이며, 본 서비스와는 무관합니다.
+          </p>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer style={{
         background: 'white',
