@@ -50,6 +50,67 @@ export default function IkigaiLanding() {
     gap: isMobile ? '16px' : '40px',
   };
 
+  // 섹션 제목 공통 스타일 (초록 밑줄)
+  const headingStyle = {
+    fontSize: '20px',
+    fontWeight: '700',
+    color: '#1A1A1A',
+    margin: '0 0 8px 0',
+    borderBottom: '2px solid #2D9D78',
+    paddingBottom: '8px',
+    display: 'inline-block',
+  };
+  // 카드가 2열(데스크톱)/1열(모바일)로 배치되도록
+  const halfWidth = isMobile ? '100%' : 'calc(50% - 10px)';
+
+  // 이키가이를 구성하는 4가지 질문
+  const ikigaiQuestions = [
+    {
+      no: '1',
+      en: 'What you love',
+      title: '내가 사랑하는 것',
+      items: [
+        '시간 가는 줄 모르고 몰입하게 되는 일은 무엇인가?',
+        '나의 심장을 뛰게 하고 순수한 기쁨을 주는 활동은 무엇인가?',
+      ],
+    },
+    {
+      no: '2',
+      en: 'What you are good at',
+      title: '내가 잘하는 것',
+      items: [
+        '남들보다 수월하게 해낼 수 있는 나만의 강점과 재능은 무엇인가?',
+        '타인에게 인정받거나 스스로 성취감을 느끼는 능력은 무엇인가?',
+      ],
+    },
+    {
+      no: '3',
+      en: 'What the world needs',
+      title: '세상이 필요로 하는 것',
+      items: [
+        '사회나 타인의 삶을 더 낫게 만들기 위해 필요한 가치는 무엇인가?',
+        '내가 기여할 수 있는 문제 해결이나 긍정적인 영향력은 무엇인가?',
+      ],
+    },
+    {
+      no: '4',
+      en: 'What you can be paid for',
+      title: '보상받을 수 있는 것',
+      items: [
+        '나의 능력과 시간의 대가로 경제적 수익을 창출할 수 있는 일은 무엇인가?',
+        '지속 가능한 삶을 유지하게 해주는 현실적인 수단은 무엇인가?',
+      ],
+    },
+  ];
+
+  // 4가지 요소가 만나는 교집합
+  const ikigaiOverlaps = [
+    { term: '열정', en: 'Passion', formula: '사랑하는 것 + 잘하는 것', note: '만족스럽지만, 세상에 기여하거나 돈이 되지 않을 수 있음', color: '#E8743B' },
+    { term: '사명', en: 'Mission', formula: '사랑하는 것 + 세상이 필요로 하는 것', note: '보람차지만, 경제적 보상이 따르지 않을 수 있음', color: '#2D9D78' },
+    { term: '천직', en: 'Vocation', formula: '세상이 필요로 하는 것 + 보상받을 수 있는 것', note: '안정적이지만, 개인적인 흥미나 확신이 부족할 수 있음', color: '#3B82C4' },
+    { term: '전문성', en: 'Profession', formula: '잘하는 것 + 보상받을 수 있는 것', note: '편안하지만, 공허함이나 의미의 부재를 느낄 수 있음', color: '#9B6BC4' },
+  ];
+
   return (
     <div style={{ fontFamily: 'system-ui, -apple-system, sans-serif', overflowX: 'hidden' }}>
       {/* Hero Section */}
@@ -83,13 +144,24 @@ export default function IkigaiLanding() {
           </h2>
 
           <p style={{
+            fontSize: isMobile ? '17px' : '20px',
+            color: '#1A1A1A',
+            margin: '0 0 14px 0',
+            fontWeight: '800',
+            lineHeight: '1.5',
+          }}>
+            좋아하는 일로 먹고살 수는 없을까?<br />
+            매일 아침 설레며 눈뜨는 삶, 당신에게도 가능합니다.
+          </p>
+
+          <p style={{
             fontSize: '15px',
             color: '#5A5A5A',
             margin: '0 0 24px 0',
             fontWeight: '500',
             lineHeight: '1.7',
           }}>
-            이키가이를 통한 자신만의 추체 이유 찾아보기
+            이키가이를 통해 나만의 '존재 이유'를 찾아보세요.
           </p>
         </div>
 
@@ -172,6 +244,108 @@ export default function IkigaiLanding() {
           }}>
             진정으로 사랑하는 것을 발견하고, 나만의 재능과 강점을 알아차리며, 세상에 기여할 수 있는 역할을 찾습니다. 그리고 이 모든 것을 하나로 모아, 앞으로 나아갈 삶의 방향을 세우게 됩니다.
           </div>
+        </div>
+      </section>
+
+      {/* IKIGAI Deep Dive Section */}
+      <section style={{ padding: sectionPad, background: 'white' }}>
+        <h3 style={headingStyle}>이키가이를 구성하는 4가지 질문</h3>
+        <p style={{ fontSize: '14px', color: '#5A5A5A', lineHeight: '1.7', margin: '12px 0 0 0' }}>
+          💡 네 가지 질문에 하나씩 답하다 보면, 흩어져 있던 '나'의 조각들이 서서히 하나로 모입니다.
+        </p>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', margin: '24px 0 48px 0' }}>
+          {ikigaiQuestions.map((q) => (
+            <div key={q.no} style={{
+              width: halfWidth,
+              boxSizing: 'border-box',
+              background: '#FAFAFA',
+              border: '1px solid #ECECEC',
+              borderRadius: '12px',
+              padding: isMobile ? '18px' : '22px',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                <span style={{
+                  flexShrink: 0,
+                  width: '28px',
+                  height: '28px',
+                  borderRadius: '50%',
+                  background: '#2D9D78',
+                  color: 'white',
+                  fontWeight: '700',
+                  fontSize: '14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                  {q.no}
+                </span>
+                <div>
+                  <p style={{ margin: 0, fontWeight: '700', fontSize: '16px', color: '#1A1A1A' }}>{q.title}</p>
+                  <p style={{ margin: 0, fontSize: '12px', color: '#9A9A9A', fontWeight: '500' }}>{q.en}</p>
+                </div>
+              </div>
+              <ul style={{ margin: '8px 0 0 0', paddingLeft: '18px' }}>
+                {q.items.map((item, i) => (
+                  <li key={i} style={{ fontSize: '13.5px', color: '#5A5A5A', lineHeight: '1.6', marginBottom: '6px' }}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <h3 style={headingStyle}>4가지 요소가 만나는 교집합</h3>
+        <p style={{ fontSize: '14px', color: '#5A5A5A', lineHeight: '1.7', margin: '12px 0 0 0' }}>
+          🧩 두 원이 겹치는 곳마다 서로 다른 감정과 상태가 나타납니다.
+        </p>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', margin: '24px 0 28px 0' }}>
+          {ikigaiOverlaps.map((o) => (
+            <div key={o.term} style={{
+              width: halfWidth,
+              boxSizing: 'border-box',
+              background: 'white',
+              border: `1px solid ${o.color}33`,
+              borderLeft: `4px solid ${o.color}`,
+              borderRadius: '10px',
+              padding: isMobile ? '16px' : '18px',
+            }}>
+              <p style={{ margin: '0 0 4px 0' }}>
+                <span style={{ fontWeight: '800', fontSize: '17px', color: o.color }}>{o.term}</span>
+                <span style={{ fontSize: '12px', color: '#9A9A9A', marginLeft: '6px', fontWeight: '600' }}>{o.en}</span>
+              </p>
+              <p style={{ margin: '0 0 8px 0', fontSize: '13px', fontWeight: '600', color: '#1A1A1A' }}>{o.formula}</p>
+              <p style={{ margin: 0, fontSize: '13px', color: '#7A7A7A', lineHeight: '1.6' }}>{o.note}</p>
+            </div>
+          ))}
+        </div>
+
+        <div style={{
+          background: 'linear-gradient(135deg, #FFF8E8 0%, #F0E5FF 100%)',
+          borderRadius: '12px',
+          padding: isMobile ? '20px' : '24px',
+          textAlign: 'center',
+        }}>
+          <p style={{ margin: 0, fontSize: isMobile ? '15px' : '16px', fontWeight: '700', color: '#2D9D78', lineHeight: '1.6' }}>
+            이 모든 것이 만나는 정중앙의 핵심 영역,<br />
+            그곳이 바로 온전한 '이키가이'입니다.
+          </p>
+        </div>
+
+        <div style={{
+          marginTop: '40px',
+          background: '#F4F9F6',
+          borderRadius: '12px',
+          padding: isMobile ? '20px' : '28px',
+        }}>
+          <p style={{ margin: '0 0 12px 0', fontWeight: '700', fontSize: '16px', color: '#1A1A1A' }}>
+            📌 이키가이가 주는 인사이트
+          </p>
+          <p style={{ margin: 0, fontSize: '14px', color: '#5A5A5A', lineHeight: '1.8' }}>
+            이키가이는 단번에 찾아지는 완성된 결과물이 아니라, 스스로에게 끊임없이 질문을 던지며 다듬어가는 <strong style={{ color: '#2D9D78' }}>'자기 이해와 성장의 프레임워크'</strong>입니다. 이 네 가지 영역을 점검하고 삶의 루틴 속에 적용해 나갈 때, 우리는 소진되지 않고 나다운 방식으로 세상과 연결되는 단단한 삶의 방향성을 세울 수 있습니다.
+          </p>
         </div>
       </section>
 
