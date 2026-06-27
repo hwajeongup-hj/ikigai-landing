@@ -174,7 +174,7 @@ function IkigaiVennDiagram({ isMobile }) {
 }
 
 export default function IkigaiLanding() {
-  const [email, setEmail] = useState('');
+  const [form, setForm] = useState({ name: '', phone: '', age: '', region: '', concern: '' });
   const [submitted, setSubmitted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -185,11 +185,13 @@ export default function IkigaiLanding() {
     return () => window.removeEventListener('resize', check);
   }, []);
 
+  const updateField = (key) => (e) => setForm((prev) => ({ ...prev, [key]: e.target.value }));
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Email submitted:', email);
+    console.log('Application submitted:', form);
     setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    setTimeout(() => setSubmitted(false), 4000);
   };
 
   // 반응형 공통 값 — 모바일에서 좌우 여백을 줄이고 간격을 좁혀 콘텐츠가 잘리지 않게 함
@@ -200,6 +202,22 @@ export default function IkigaiLanding() {
     flexDirection: isMobile ? 'column' : 'row',
     gap: isMobile ? '16px' : '40px',
   };
+
+  // 신청 폼 필드 공통 스타일
+  const fieldLabelStyle = { display: 'block', fontWeight: '700', fontSize: '15px', color: '#1A1A1A', margin: '0 0 6px 0' };
+  const fieldHelpStyle = { fontSize: '13px', color: '#9A9A9A', margin: '0 0 8px 0', lineHeight: '1.5' };
+  const inputStyle = {
+    width: '100%',
+    padding: '12px 14px',
+    border: '1px solid #DDD',
+    borderRadius: '8px',
+    fontSize: '14px',
+    boxSizing: 'border-box',
+    fontFamily: 'inherit',
+    color: '#1A1A1A',
+    outline: 'none',
+  };
+  const reqMark = <span style={{ color: '#E8743B' }}> *</span>;
 
   // 섹션 제목 공통 스타일 (초록 밑줄)
   const headingStyle = {
@@ -529,48 +547,129 @@ export default function IkigaiLanding() {
           지금 신청하고 가장 먼저 만나보세요
         </p>
         <p style={{ fontSize: '14px', color: '#5A5A5A', margin: '0 0 24px 0' }}>
-          이메일을 남겨주시면 오픈 소식과 체험권 추첨 결과를 보내드려요.
+          아래 정보를 남겨주시면, 고민에 맞는 PDF를 보내드려요.
         </p>
-        <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: '0 auto' }}>
-          <input
-            type="email"
-            placeholder="이메일을 입력하세요"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={{
-              width: '100%',
-              padding: '12px 16px',
-              border: '1px solid #ddd',
-              borderRadius: '8px',
-              fontSize: '14px',
-              marginBottom: '12px',
-              boxSizing: 'border-box',
-            }}
-          />
+
+        <form onSubmit={handleSubmit} style={{
+          maxWidth: '480px',
+          margin: '0 auto',
+          textAlign: 'left',
+          background: 'white',
+          borderRadius: '16px',
+          padding: isMobile ? '24px 20px' : '32px',
+          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.08)',
+        }}>
+          {/* 성함 */}
+          <div style={{ marginBottom: '20px' }}>
+            <label style={fieldLabelStyle}>성함을 말씀해 주세요.{reqMark}</label>
+            <input
+              type="text"
+              value={form.name}
+              onChange={updateField('name')}
+              required
+              style={inputStyle}
+            />
+          </div>
+
+          {/* 연락처 */}
+          <div style={{ marginBottom: '20px' }}>
+            <label style={fieldLabelStyle}>안내 받으실 연락처를 말씀해 주세요.{reqMark}</label>
+            <p style={fieldHelpStyle}>010-1234-5678 / 오타가 없는지 한 번 더 확인해주세요.</p>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                padding: '0 12px',
+                border: '1px solid #DDD',
+                borderRadius: '8px',
+                fontSize: '14px',
+                color: '#5A5A5A',
+                background: '#FAFAFA',
+                whiteSpace: 'nowrap',
+              }}>
+                🇰🇷 +82
+              </div>
+              <input
+                type="tel"
+                value={form.phone}
+                onChange={updateField('phone')}
+                required
+                placeholder="(입력하신 번호로 PDF 전달드립니다)"
+                style={{ ...inputStyle, flex: 1 }}
+              />
+            </div>
+          </div>
+
+          {/* 나이 */}
+          <div style={{ marginBottom: '20px' }}>
+            <label style={fieldLabelStyle}>나이를 말씀해 주세요.{reqMark}</label>
+            <input
+              type="text"
+              inputMode="numeric"
+              value={form.age}
+              onChange={updateField('age')}
+              required
+              placeholder="ex) 24"
+              style={{ ...inputStyle, maxWidth: '180px' }}
+            />
+          </div>
+
+          {/* 거주 지역 */}
+          <div style={{ marginBottom: '20px' }}>
+            <label style={fieldLabelStyle}>현재 거주 중인 지역을 적어주세요.{reqMark}</label>
+            <textarea
+              value={form.region}
+              onChange={updateField('region')}
+              required
+              placeholder="ex) 서울시 은평구, 고양시 마두동"
+              style={{ ...inputStyle, minHeight: '88px', resize: 'vertical', lineHeight: '1.5' }}
+            />
+          </div>
+
+          {/* 고민 */}
+          <div style={{ marginBottom: '4px' }}>
+            <label style={fieldLabelStyle}>현재 해결하고 싶은 고민을 적어주세요.{reqMark}</label>
+            <p style={fieldHelpStyle}>고민에 맞는 PDF로 보내드릴 예정입니다.</p>
+            <textarea
+              value={form.concern}
+              onChange={updateField('concern')}
+              required
+              placeholder="ex) 현재상황, 목표설정의 어려움, 고민/문제 등"
+              style={{ ...inputStyle, minHeight: '100px', resize: 'vertical', lineHeight: '1.5' }}
+            />
+          </div>
+
+          {/* 감사 메시지 */}
+          <hr style={{ border: 'none', borderTop: '1px solid #EEE', margin: '24px 0' }} />
+          <p style={{ fontSize: '22px', fontWeight: '800', color: '#1A1A1A', margin: '0 0 12px 0' }}>감사합니다.</p>
+          <p style={{ fontSize: '15px', fontWeight: '700', color: '#1A1A1A', margin: '0 0 24px 0', lineHeight: '1.5' }}>
+            나를 찾는 즐거움, WE-IT이 끝까지 응원하겠습니다!
+          </p>
+          <hr style={{ border: 'none', borderTop: '1px solid #EEE', margin: '0 0 24px 0' }} />
+
           <button
             type="submit"
             style={{
-              width: '100%',
-              padding: '12px 16px',
-              background: '#FFB84D',
+              padding: '12px 30px',
+              background: '#4A90D9',
               color: 'white',
               border: 'none',
-              borderRadius: '8px',
+              borderRadius: '999px',
               fontWeight: '700',
               fontSize: '15px',
               cursor: 'pointer',
             }}
           >
-            지금 신청하기
+            제출하기
           </button>
-        </form>
 
-        {submitted && (
-          <p style={{ marginTop: '16px', color: '#2D9D78', fontWeight: '600' }}>
-            ✓ 신청이 완료되었습니다!
-          </p>
-        )}
+          {submitted && (
+            <p style={{ marginTop: '16px', marginBottom: 0, color: '#2D9D78', fontWeight: '700', fontSize: '14px' }}>
+              ✓ 신청이 완료되었습니다! 입력하신 연락처로 안내드릴게요.
+            </p>
+          )}
+        </form>
       </section>
 
       {/* Reference Video Section */}
