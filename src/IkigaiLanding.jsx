@@ -176,6 +176,8 @@ function IkigaiVennDiagram({ isMobile }) {
 export default function IkigaiLanding() {
   const [form, setForm] = useState({ name: '', phone: '', age: '', region: '', concern: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -187,11 +189,48 @@ export default function IkigaiLanding() {
 
   const updateField = (key) => (e) => setForm((prev) => ({ ...prev, [key]: e.target.value }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Application submitted:', form);
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
+    if (isSubmitting) return;
+
+    const webhookUrl = 'https://script.google.com/macros/s/AKfycbwJNnO29D7hYl-AjKSpwjHsNu7uRJAOfxkL2TboG58WzZf0kUGLWMSi0IbioR2_oDh5/exec';
+    const params = new URLSearchParams(window.location.search);
+    const payload = {
+      variant: '이키가이 가이드북 랜딩',
+      sheetTab: 'Ikigai_Landing',
+      name: form.name.trim(),
+      phone: form.phone.trim(),
+      age: form.age.trim(),
+      address: form.region.trim(),
+      concern: form.concern.trim(),
+      pageUrl: window.location.href,
+      utmSource: params.get('utm_source') || '',
+      utmMedium: params.get('utm_medium') || '',
+      utmCampaign: params.get('utm_campaign') || '',
+      userAgent: navigator.userAgent,
+      referrer: document.referrer || '',
+    };
+
+    setIsSubmitting(true);
+    setSubmitError('');
+    setSubmitted(false);
+
+    try {
+      await fetch(webhookUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        redirect: 'follow',
+        body: JSON.stringify(payload),
+      });
+      setSubmitted(true);
+      setForm({ name: '', phone: '', age: '', region: '', concern: '' });
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch (error) {
+      console.error('Application submit failed:', error);
+      setSubmitError('제출 중 문제가 생겼습니다. 잠시 후 다시 시도해주세요.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // 반응형 공통 값 — 모바일에서 좌우 여백을 줄이고 간격을 좁혀 콘텐츠가 잘리지 않게 함
@@ -650,6 +689,7 @@ export default function IkigaiLanding() {
 
           <button
             type="submit"
+            disabled={isSubmitting}
             style={{
               padding: '12px 30px',
               background: '#4A90D9',
@@ -658,15 +698,21 @@ export default function IkigaiLanding() {
               borderRadius: '999px',
               fontWeight: '700',
               fontSize: '15px',
-              cursor: 'pointer',
+              cursor: isSubmitting ? 'default' : 'pointer',
+              opacity: isSubmitting ? 0.7 : 1,
             }}
           >
-            제출하기
+            {isSubmitting ? '제출 중...' : '제출하기'}
           </button>
 
           {submitted && (
             <p style={{ marginTop: '16px', marginBottom: 0, color: '#2D9D78', fontWeight: '700', fontSize: '14px' }}>
               ✓ 신청이 완료되었습니다! 입력하신 연락처로 안내드릴게요.
+            </p>
+          )}
+          {submitError && (
+            <p style={{ marginTop: '16px', marginBottom: 0, color: '#D9480F', fontWeight: '700', fontSize: '14px' }}>
+              {submitError}
             </p>
           )}
         </form>
