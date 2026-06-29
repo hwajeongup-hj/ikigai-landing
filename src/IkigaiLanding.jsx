@@ -275,7 +275,7 @@ export default function IkigaiLanding() {
     { big: '3명 중 1명', who: '신입사원', quote: '"적성 불일치로 1년 내 퇴사"' },
   ];
 
-  // 3가지 맞춤형 가이드 유형
+  // 3가지 맞춤형 템플릿 유형
   const workbookTypes = [
     { tag: 'TYPE A', name: '발견형', img: typeDiscovery, desc: '아직 방향이 막막하다면, 좋아하고 끌리는 것부터 차근차근 발견합니다.', accent: '#2D9D78' },
     { tag: 'TYPE B', name: '설계형', img: typeDesign, desc: '흩어진 강점과 경험을 나만의 경쟁력으로 정리하고 설계합니다.', accent: '#E8743B' },
@@ -486,10 +486,10 @@ export default function IkigaiLanding() {
           lineHeight: '1.4',
         }}>
           당신의 <span style={{ color: '#2D9D78' }}>'진짜 나'</span>를 찾아줄<br />
-          3가지 맞춤형 가이드
+          3가지 맞춤형 템플릿
         </h3>
         <p style={{ fontSize: '15px', color: '#5A5A5A', lineHeight: '1.7', margin: '0 0 40px 0' }}>
-          성향에 맞는 가이드를 골라, 진정으로 사랑하는 것을 발견하고<br style={{ display: isMobile ? 'none' : 'block' }} />
+          성향에 맞는 템플릿을 골라, 진정으로 사랑하는 것을 발견하고<br style={{ display: isMobile ? 'none' : 'block' }} />
           나만의 강점으로 앞으로 나아갈 삶의 방향을 세워보세요.
         </p>
 
@@ -515,7 +515,7 @@ export default function IkigaiLanding() {
               boxShadow: '0 6px 20px rgba(0, 0, 0, 0.05)',
               textAlign: 'center',
             }}>
-              {/* 워크북 표지 목업 */}
+              {/* 템플릿 표지 목업 */}
               <div style={{
                 background: `linear-gradient(160deg, ${t.accent}1F 0%, ${t.accent}0A 100%)`,
                 padding: isMobile ? '26px 26px 0 26px' : '30px 30px 0 30px',
@@ -525,7 +525,7 @@ export default function IkigaiLanding() {
               }}>
                 <img
                   src={t.img}
-                  alt={`${t.name} 가이드북 표지`}
+                  alt={`${t.name} 템플릿 표지`}
                   style={{
                     width: '100%',
                     maxWidth: '210px',
@@ -635,7 +635,7 @@ export default function IkigaiLanding() {
                 value={form.phone}
                 onChange={updateField('phone')}
                 required
-                placeholder="(입력하신 번호로 PDF 전달드립니다)"
+                placeholder="(입력하신 번호로 안내 연락드립니다)"
                 style={{ ...inputStyle, flex: 1 }}
               />
             </div>
@@ -683,7 +683,7 @@ export default function IkigaiLanding() {
           {/* 고민 */}
           <div style={{ marginBottom: '4px' }}>
             <label style={fieldLabelStyle}>현재 해결하고 싶은 고민을 적어주세요.{reqMark}</label>
-            <p style={fieldHelpStyle}>고민에 맞는 PDF로 보내드릴 예정입니다.</p>
+            <p style={fieldHelpStyle}>작성해주신 내용을 바탕으로 이키가이 분석 체험권 안내를 연락드릴게요.</p>
             <textarea
               value={form.concern}
               onChange={updateField('concern')}
