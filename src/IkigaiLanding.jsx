@@ -188,6 +188,10 @@ export default function IkigaiLanding() {
   }, []);
 
   const updateField = (key) => (e) => setForm((prev) => ({ ...prev, [key]: e.target.value }));
+  const updateBirthdate = (e) => {
+    const value = e.target.value.replace(/\D/g, '').slice(0, 6);
+    setForm((prev) => ({ ...prev, birthdate: value }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -647,11 +651,13 @@ export default function IkigaiLanding() {
             <input
               type="text"
               inputMode="numeric"
+              pattern="[0-9]{6}"
+              maxLength={6}
               value={form.birthdate}
-              onChange={updateField('birthdate')}
+              onChange={updateBirthdate}
               required
-              placeholder="ex) 2001.03.15"
-              style={{ ...inputStyle, maxWidth: '220px' }}
+              placeholder="ex) 990407"
+              style={{ ...inputStyle, maxWidth: '180px' }}
             />
           </div>
 
