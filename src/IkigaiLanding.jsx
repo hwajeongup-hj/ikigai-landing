@@ -561,23 +561,72 @@ export default function IkigaiLanding() {
         padding: sectionPad,
         textAlign: 'center',
       }}>
-        <p style={{ fontSize: '18px', fontWeight: '700', color: '#2D9D78', margin: '0 0 16px 0' }}>
-          🎁 2026년 6월 선착순 100명 한정 · 무료 이벤트
-        </p>
-        <div style={{
+        <span style={{
           display: 'inline-block',
-          background: 'white',
-          border: '2px dashed #FFB84D',
-          borderRadius: '14px',
-          padding: isMobile ? '18px 22px' : '20px 32px',
-          margin: '0 auto',
+          background: '#2D9D78',
+          color: 'white',
+          fontWeight: '800',
+          fontSize: isMobile ? '13px' : '14px',
+          padding: '7px 16px',
+          borderRadius: '999px',
+          marginBottom: '18px',
+          letterSpacing: '0.3px',
         }}>
-          <p style={{ margin: 0, fontSize: isMobile ? '16px' : '19px', fontWeight: '800', color: '#1A1A1A', lineHeight: '1.5' }}>
-            🎫 전문가의 이키가이 분석 <span style={{ color: '#E8743B' }}>체험권</span>
-          </p>
-          <p style={{ margin: '6px 0 0 0', fontSize: isMobile ? '14px' : '15px', fontWeight: '700', color: '#2D9D78' }}>
-            신청자 중 추첨을 통해 증정!
-          </p>
+          🎁 2026년 6월 · 선착순 100명 한정 EVENT
+        </span>
+
+        <h3 style={{
+          fontSize: isMobile ? '22px' : '28px',
+          fontWeight: '800',
+          color: '#1A1A1A',
+          margin: '0 0 14px 0',
+          lineHeight: '1.4',
+        }}>
+          나를 찾는 여정, <span style={{ color: '#2D9D78' }}>지금은 무료</span>로 시작하세요
+        </h3>
+
+        <p style={{ fontSize: isMobile ? '15px' : '16px', color: '#5A5A5A', lineHeight: '1.8', margin: '0 0 32px 0' }}>
+          이번 6월 한 달간, <strong style={{ color: '#1A1A1A' }}>선착순 100명</strong>에게{' '}
+          <br style={{ display: isMobile ? 'none' : 'block' }} />
+          당신의 고민에 꼭 맞는 <strong style={{ color: '#1A1A1A' }}>이키가이 템플릿(PDF)</strong>을 무료로 보내드립니다.
+        </p>
+
+        {/* 받는 혜택 2가지 */}
+        <div style={{
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          gap: '16px',
+          maxWidth: '720px',
+          margin: '0 auto',
+          textAlign: 'left',
+        }}>
+          <div style={{
+            flex: 1,
+            background: 'white',
+            borderRadius: '14px',
+            padding: isMobile ? '20px' : '24px',
+            boxShadow: '0 6px 20px rgba(0, 0, 0, 0.06)',
+          }}>
+            <p style={{ margin: '0 0 8px 0', fontSize: '13px', fontWeight: '800', color: '#2D9D78' }}>BENEFIT 1 · 신청자 전원</p>
+            <p style={{ margin: '0 0 6px 0', fontSize: '17px', fontWeight: '800', color: '#1A1A1A' }}>맞춤형 이키가이 템플릿 PDF</p>
+            <p style={{ margin: 0, fontSize: '14px', color: '#5A5A5A', lineHeight: '1.6' }}>
+              3가지 유형 중 내 성향과 고민에 맞는 템플릿을 골라 무료로 보내드려요.
+            </p>
+          </div>
+          <div style={{
+            flex: 1,
+            background: 'white',
+            borderRadius: '14px',
+            padding: isMobile ? '20px' : '24px',
+            boxShadow: '0 6px 20px rgba(0, 0, 0, 0.06)',
+            border: '2px dashed #FFB84D',
+          }}>
+            <p style={{ margin: '0 0 8px 0', fontSize: '13px', fontWeight: '800', color: '#E8743B' }}>BENEFIT 2 · 추첨 증정</p>
+            <p style={{ margin: '0 0 6px 0', fontSize: '17px', fontWeight: '800', color: '#1A1A1A' }}>🎫 전문가의 이키가이 분석 체험권</p>
+            <p style={{ margin: 0, fontSize: '14px', color: '#5A5A5A', lineHeight: '1.6' }}>
+              신청자 중 추첨을 통해, 전문가에게 직접 분석받아볼 수 있는 기회를 드려요.
+            </p>
+          </div>
         </div>
       </section>
 
