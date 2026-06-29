@@ -174,7 +174,7 @@ function IkigaiVennDiagram({ isMobile }) {
 }
 
 export default function IkigaiLanding() {
-  const [form, setForm] = useState({ name: '', phone: '', age: '', region: '', concern: '' });
+  const [form, setForm] = useState({ name: '', phone: '', birthdate: '', region: '', occupation: '', concern: '' });
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
@@ -200,8 +200,9 @@ export default function IkigaiLanding() {
       sheetTab: 'Ikigai_Landing',
       name: form.name.trim(),
       phone: form.phone.trim(),
-      age: form.age.trim(),
+      birthdate: form.birthdate.trim(),
       address: form.region.trim(),
+      occupation: form.occupation.trim(),
       concern: form.concern.trim(),
       pageUrl: window.location.href,
       utmSource: params.get('utm_source') || '',
@@ -223,7 +224,7 @@ export default function IkigaiLanding() {
         body: JSON.stringify(payload),
       });
       setSubmitted(true);
-      setForm({ name: '', phone: '', age: '', region: '', concern: '' });
+      setForm({ name: '', phone: '', birthdate: '', region: '', occupation: '', concern: '' });
       setTimeout(() => setSubmitted(false), 5000);
     } catch (error) {
       console.error('Application submit failed:', error);
@@ -586,7 +587,7 @@ export default function IkigaiLanding() {
           지금 신청하고 가장 먼저 만나보세요
         </p>
         <p style={{ fontSize: '14px', color: '#5A5A5A', margin: '0 0 24px 0' }}>
-          아래 정보를 남겨주시면, 고민에 맞는 PDF를 보내드려요.
+          아래 정보를 남겨주시면, 이키가이 분석 체험권에 대한 안내 연락을 드려요.
         </p>
 
         <form onSubmit={handleSubmit} style={{
@@ -640,17 +641,17 @@ export default function IkigaiLanding() {
             </div>
           </div>
 
-          {/* 나이 */}
+          {/* 생년월일 */}
           <div style={{ marginBottom: '20px' }}>
-            <label style={fieldLabelStyle}>나이를 말씀해 주세요.{reqMark}</label>
+            <label style={fieldLabelStyle}>생년월일을 적어주세요.{reqMark}</label>
             <input
               type="text"
               inputMode="numeric"
-              value={form.age}
-              onChange={updateField('age')}
+              value={form.birthdate}
+              onChange={updateField('birthdate')}
               required
-              placeholder="ex) 24"
-              style={{ ...inputStyle, maxWidth: '180px' }}
+              placeholder="ex) 2001.03.15"
+              style={{ ...inputStyle, maxWidth: '220px' }}
             />
           </div>
 
@@ -663,6 +664,19 @@ export default function IkigaiLanding() {
               required
               placeholder="ex) 서울시 은평구, 고양시 마두동"
               style={{ ...inputStyle, minHeight: '88px', resize: 'vertical', lineHeight: '1.5' }}
+            />
+          </div>
+
+          {/* 직업/학교 */}
+          <div style={{ marginBottom: '20px' }}>
+            <label style={fieldLabelStyle}>직업이나 학교를 적어주세요.{reqMark}</label>
+            <input
+              type="text"
+              value={form.occupation}
+              onChange={updateField('occupation')}
+              required
+              placeholder="ex) 대학생 / 직장인 / ○○대학교"
+              style={inputStyle}
             />
           </div>
 
