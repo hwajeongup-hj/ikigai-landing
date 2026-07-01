@@ -337,8 +337,23 @@ export default function IkigaiLanding() {
             fontWeight: '500',
             lineHeight: '1.7',
           }}>
-            이키가이를 통해 나만의 '존재 이유'를 찾아보세요.
+            퇴사와 이직 사이에서 길을 잃었다면,<br />
+            이키가이로 나만의 진짜 강점과 커리어 방향을 설계해 보세요.
           </p>
+
+          <a href="#apply" style={{
+            display: 'inline-block',
+            background: '#2D9D78',
+            color: 'white',
+            fontWeight: '800',
+            fontSize: isMobile ? '15px' : '16px',
+            padding: '14px 26px',
+            borderRadius: '999px',
+            textDecoration: 'none',
+            boxShadow: '0 8px 20px rgba(45, 157, 120, 0.35)',
+          }}>
+            무료 템플릿 신청하고 내 강점 찾기 →
+          </a>
         </div>
 
         {/* Right - Diagram Image */}
@@ -357,6 +372,64 @@ export default function IkigaiLanding() {
             }}
           />
         </div>
+      </section>
+
+      {/* Problem Section (페인포인트를 상단으로 배치) */}
+      <section style={{ padding: isMobile ? `56px ${padX}` : '80px 60px', background: '#1A1A1A' }}>
+        <h3 style={{
+          fontSize: isMobile ? '22px' : '28px',
+          fontWeight: '800',
+          color: 'white',
+          textAlign: 'center',
+          margin: '0 0 36px 0',
+          lineHeight: '1.4',
+        }}>
+          우리가 불안함을 느끼는 이유가 뭘까?
+        </h3>
+
+        <div style={{
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          gap: '16px',
+          maxWidth: '720px',
+          margin: '0 auto',
+        }}>
+          {anxietyStats.map((s) => (
+            <div key={s.who} style={{
+              flex: 1,
+              background: '#262626',
+              border: '1px solid #383838',
+              borderRadius: '14px',
+              padding: isMobile ? '22px' : '28px',
+              textAlign: 'center',
+            }}>
+              <p style={{ margin: '0 0 6px 0', fontSize: '13px', color: '#9A9A9A', fontWeight: '600' }}>{s.who}</p>
+              <p style={{ margin: '0 0 12px 0', fontSize: isMobile ? '26px' : '30px', fontWeight: '900', color: '#FFB84D' }}>{s.big}</p>
+              <p style={{ margin: 0, fontSize: '15px', color: '#E5E5E5', fontWeight: '600' }}>{s.quote}</p>
+            </div>
+          ))}
+        </div>
+
+        <p style={{
+          textAlign: 'center',
+          fontSize: isMobile ? '16px' : '18px',
+          color: 'white',
+          fontWeight: '700',
+          margin: '36px 0 0 0',
+          lineHeight: '1.6',
+        }}>
+          결국 문제는 <span style={{ color: '#2D9D78' }}>'나를 모른다는 것'</span>에서 시작됩니다.
+        </p>
+      </section>
+
+      {/* Solution Bridge Section */}
+      <section style={{ padding: isMobile ? `48px ${padX}` : '64px 60px', background: 'white', textAlign: 'center' }}>
+        <p style={{ fontSize: isMobile ? '14px' : '15px', color: '#9A9A9A', fontWeight: '600', margin: '0 0 10px 0' }}>
+          막막한 그 질문의 답을 찾는 방법
+        </p>
+        <h3 style={{ fontSize: isMobile ? '24px' : '32px', fontWeight: '800', color: '#1A1A1A', margin: 0, lineHeight: '1.4' }}>
+          그 정답이 바로, <span style={{ color: '#2D9D78' }}>'이키가이'</span>입니다.
+        </h3>
       </section>
 
       {/* What is IKIGAI Section */}
@@ -428,54 +501,6 @@ export default function IkigaiLanding() {
             이키가이는 단번에 찾아지는 완성된 결과물이 아니라, 스스로에게 끊임없이 질문을 던지며 다듬어가는 <strong style={{ color: '#2D9D78' }}>'자기 이해와 성장의 프레임워크'</strong>입니다. 이 네 가지 영역을 점검하고 삶의 루틴 속에 적용해 나갈 때, 우리는 소진되지 않고 나다운 방식으로 세상과 연결되는 단단한 삶의 방향성을 세울 수 있습니다.
           </p>
         </div>
-      </section>
-
-      {/* Problem Section */}
-      <section style={{ padding: isMobile ? `56px ${padX}` : '80px 60px', background: '#1A1A1A' }}>
-        <h3 style={{
-          fontSize: isMobile ? '22px' : '28px',
-          fontWeight: '800',
-          color: 'white',
-          textAlign: 'center',
-          margin: '0 0 36px 0',
-          lineHeight: '1.4',
-        }}>
-          우리가 불안함을 느끼는 이유가 뭘까?
-        </h3>
-
-        <div style={{
-          display: 'flex',
-          flexDirection: isMobile ? 'column' : 'row',
-          gap: '16px',
-          maxWidth: '720px',
-          margin: '0 auto',
-        }}>
-          {anxietyStats.map((s) => (
-            <div key={s.who} style={{
-              flex: 1,
-              background: '#262626',
-              border: '1px solid #383838',
-              borderRadius: '14px',
-              padding: isMobile ? '22px' : '28px',
-              textAlign: 'center',
-            }}>
-              <p style={{ margin: '0 0 6px 0', fontSize: '13px', color: '#9A9A9A', fontWeight: '600' }}>{s.who}</p>
-              <p style={{ margin: '0 0 12px 0', fontSize: isMobile ? '26px' : '30px', fontWeight: '900', color: '#FFB84D' }}>{s.big}</p>
-              <p style={{ margin: 0, fontSize: '15px', color: '#E5E5E5', fontWeight: '600' }}>{s.quote}</p>
-            </div>
-          ))}
-        </div>
-
-        <p style={{
-          textAlign: 'center',
-          fontSize: isMobile ? '16px' : '18px',
-          color: 'white',
-          fontWeight: '700',
-          margin: '36px 0 0 0',
-          lineHeight: '1.6',
-        }}>
-          결국 문제는 <span style={{ color: '#2D9D78' }}>'나를 모른다는 것'</span>에서 시작됩니다.
-        </p>
       </section>
 
       {/* Bridge + Workbook Types Section */}
@@ -576,10 +601,25 @@ export default function IkigaiLanding() {
             }}
           />
         </div>
+
+        <a href="#apply" style={{
+          display: 'inline-block',
+          marginTop: isMobile ? '36px' : '44px',
+          background: '#2D9D78',
+          color: 'white',
+          fontWeight: '800',
+          fontSize: isMobile ? '16px' : '17px',
+          padding: '15px 30px',
+          borderRadius: '999px',
+          textDecoration: 'none',
+          boxShadow: '0 8px 22px rgba(45, 157, 120, 0.35)',
+        }}>
+          무료 템플릿 신청하고 내 강점 찾기 →
+        </a>
       </section>
 
       {/* Our Workbook Section */}
-      <section style={{
+      <section id="apply" style={{
         background: 'linear-gradient(135deg, #FFF8E8 0%, #F0E5FF 100%)',
         padding: sectionPad,
         textAlign: 'center',
@@ -595,7 +635,7 @@ export default function IkigaiLanding() {
           marginBottom: '18px',
           letterSpacing: '0.3px',
         }}>
-          🎁 2026년 6월 · 선착순 100명 한정 EVENT
+          🎁 이달의 한정 혜택 · 선착순 100명
         </span>
 
         <h3 style={{
@@ -609,7 +649,7 @@ export default function IkigaiLanding() {
         </h3>
 
         <p style={{ fontSize: isMobile ? '15px' : '16px', color: '#5A5A5A', lineHeight: '1.8', margin: '0 0 32px 0' }}>
-          이번 6월 한 달간, <strong style={{ color: '#1A1A1A' }}>선착순 100명</strong>에게{' '}
+          이번 달, <strong style={{ color: '#1A1A1A' }}>선착순 100명</strong>에게{' '}
           <br style={{ display: isMobile ? 'none' : 'block' }} />
           당신의 고민에 꼭 맞는 <strong style={{ color: '#1A1A1A' }}>이키가이 템플릿(PDF)</strong>을 무료로 보내드립니다.
         </p>
@@ -645,9 +685,9 @@ export default function IkigaiLanding() {
             border: '2px dashed #FFB84D',
           }}>
             <p style={{ margin: '0 0 8px 0', fontSize: '13px', fontWeight: '800', color: '#E8743B' }}>BENEFIT 2 · 추첨 증정</p>
-            <p style={{ margin: '0 0 6px 0', fontSize: '17px', fontWeight: '800', color: '#1A1A1A' }}>🎫 전문가의 이키가이 분석 체험권</p>
+            <p style={{ margin: '0 0 6px 0', fontSize: '17px', fontWeight: '800', color: '#1A1A1A' }}>🎫 1:1 커리어 진단 코칭권</p>
             <p style={{ margin: 0, fontSize: '14px', color: '#5A5A5A', lineHeight: '1.6' }}>
-              신청자 중 추첨을 통해, 전문가에게 직접 분석받아볼 수 있는 기회를 드려요.
+              신청자 중 추첨을 통해, 전문가와 1:1로 내 커리어를 진단받는 기회를 드려요.
             </p>
           </div>
         </div>
@@ -663,7 +703,7 @@ export default function IkigaiLanding() {
           지금 신청하고 가장 먼저 만나보세요
         </p>
         <p style={{ fontSize: '14px', color: '#5A5A5A', margin: '0 0 24px 0' }}>
-          아래 정보를 남겨주시면, 이키가이 분석 체험권에 대한 안내 연락을 드려요.
+          아래 정보를 남겨주시면, 무료 템플릿과 1:1 커리어 진단 코칭권 안내를 보내드려요.
         </p>
 
         <form onSubmit={handleSubmit} style={{
@@ -761,7 +801,7 @@ export default function IkigaiLanding() {
           {/* 고민 */}
           <div style={{ marginBottom: '4px' }}>
             <label style={fieldLabelStyle}>현재 해결하고 싶은 고민을 적어주세요.{reqMark}</label>
-            <p style={fieldHelpStyle}>작성해주신 내용을 바탕으로 이키가이 분석 체험권 안내를 연락드릴게요.</p>
+            <p style={fieldHelpStyle}>작성해주신 내용을 바탕으로 맞춤 템플릿과 코칭권 안내를 연락드릴게요.</p>
             <textarea
               value={form.concern}
               onChange={updateField('concern')}
