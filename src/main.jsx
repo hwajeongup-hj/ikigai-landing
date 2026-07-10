@@ -7,6 +7,7 @@ const globalStyle = document.createElement('style');
 globalStyle.textContent = `
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   html, body {
     margin: 0;
     padding: 0;
