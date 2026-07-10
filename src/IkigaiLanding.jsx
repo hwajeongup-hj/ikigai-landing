@@ -25,7 +25,7 @@ const ClockIcon = () => {
   );
 };
 
-// 인터랙티브 이키가이 벤다이어그램 — 겹치는 부분/정중앙을 누르면 설명 팝업이 뜬다
+// 인터랙티브 이키가이 벤다이어그램 — 항목 설명이 자동으로 열리고, hover/touch 중에는 멈춘다
 const VENN_REGIONS = {
   passion:    { term: '열정',   en: 'Passion',    formula: '좋아하는 것 + 잘하는 것',                note: '만족스럽지만, 세상에 기여하거나 돈이 되지 않을 수 있어요.', color: '#E8743B', x: 158, y: 158 },
   mission:    { term: '사명',   en: 'Mission',    formula: '좋아하는 것 + 세상이 필요로 하는 것',     note: '보람차지만, 경제적 보상이 따르지 않을 수 있어요.',         color: '#2D9D78', x: 242, y: 158 },
@@ -46,13 +46,33 @@ const VENN_CIRCLES = [
   { key: 'paid',  label: '보상받는 것',  cx: 200, cy: 278, fill: '#90CDF4' },
 ];
 
+const VENN_AUTO_KEYS = ['love', 'good', 'needs', 'paid', 'passion', 'mission', 'vocation', 'profession', 'ikigai'];
+
 function IkigaiVennDiagram({ isMobile }) {
-  const [selected, setSelected] = useState(null);
-  const sel = selected ? VENN_REGIONS[selected] : null;
+  const [selected, setSelected] = useState('love');
+  const [paused, setPaused] = useState(false);
+  const sel = VENN_REGIONS[selected];
   const pairKeys = ['passion', 'mission', 'vocation', 'profession'];
 
+  useEffect(() => {
+    if (paused) return undefined;
+    const timer = window.setInterval(() => {
+      setSelected((current) => {
+        const currentIndex = VENN_AUTO_KEYS.indexOf(current);
+        return VENN_AUTO_KEYS[(currentIndex + 1) % VENN_AUTO_KEYS.length];
+      });
+    }, 2800);
+    return () => window.clearInterval(timer);
+  }, [paused]);
+
   return (
-    <div style={{ position: 'relative', maxWidth: '440px', margin: '0 auto' }}>
+    <div
+      style={{ position: 'relative', maxWidth: '440px', margin: '0 auto' }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onTouchStart={() => setPaused(true)}
+      onTouchEnd={() => setPaused(false)}
+    >
       <svg viewBox="0 0 400 400" style={{ width: '100%', height: 'auto', display: 'block' }}>
         <g style={{ mixBlendMode: 'multiply' }}>
           {VENN_CIRCLES.map((c) => (
@@ -60,28 +80,31 @@ function IkigaiVennDiagram({ isMobile }) {
               key={c.key}
               cx={c.cx}
               cy={c.cy}
-              r="108"
+              r={selected === c.key ? 114 : 108}
               fill={c.fill}
-              fillOpacity="0.85"
+              fillOpacity={selected === c.key ? 0.96 : 0.78}
+              stroke={selected === c.key ? '#1A1A1A' : 'transparent'}
+              strokeWidth={selected === c.key ? 2.6 : 0}
+              onMouseEnter={() => setSelected(c.key)}
               onClick={() => setSelected(c.key)}
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: 'pointer', transition: 'all 220ms ease' }}
             />
           ))}
         </g>
 
         {/* 바깥 개념 라벨 (클릭) */}
-        <g onClick={() => setSelected('love')} style={{ cursor: 'pointer' }}>
-          <text x="200" y="66" textAnchor="middle" fontSize="14" fontWeight="700" fill="#3A3A3A">좋아하는 것</text>
+        <g onMouseEnter={() => setSelected('love')} onClick={() => setSelected('love')} style={{ cursor: 'pointer' }}>
+          <text x="200" y="66" textAnchor="middle" fontSize="14" fontWeight="700" fill={selected === 'love' ? '#111111' : '#3A3A3A'}>좋아하는 것</text>
         </g>
-        <g onClick={() => setSelected('good')} style={{ cursor: 'pointer' }}>
-          <text x="66" y="204" textAnchor="middle" fontSize="14" fontWeight="700" fill="#3A3A3A">잘하는 것</text>
+        <g onMouseEnter={() => setSelected('good')} onClick={() => setSelected('good')} style={{ cursor: 'pointer' }}>
+          <text x="66" y="204" textAnchor="middle" fontSize="14" fontWeight="700" fill={selected === 'good' ? '#111111' : '#3A3A3A'}>잘하는 것</text>
         </g>
-        <g onClick={() => setSelected('needs')} style={{ cursor: 'pointer' }}>
-          <text x="334" y="197" textAnchor="middle" fontSize="13" fontWeight="700" fill="#3A3A3A">세상이</text>
-          <text x="334" y="213" textAnchor="middle" fontSize="13" fontWeight="700" fill="#3A3A3A">필요로 하는 것</text>
+        <g onMouseEnter={() => setSelected('needs')} onClick={() => setSelected('needs')} style={{ cursor: 'pointer' }}>
+          <text x="334" y="197" textAnchor="middle" fontSize="13" fontWeight="700" fill={selected === 'needs' ? '#111111' : '#3A3A3A'}>세상이</text>
+          <text x="334" y="213" textAnchor="middle" fontSize="13" fontWeight="700" fill={selected === 'needs' ? '#111111' : '#3A3A3A'}>필요로 하는 것</text>
         </g>
-        <g onClick={() => setSelected('paid')} style={{ cursor: 'pointer' }}>
-          <text x="200" y="332" textAnchor="middle" fontSize="14" fontWeight="700" fill="#3A3A3A">보상받는 것</text>
+        <g onMouseEnter={() => setSelected('paid')} onClick={() => setSelected('paid')} style={{ cursor: 'pointer' }}>
+          <text x="200" y="332" textAnchor="middle" fontSize="14" fontWeight="700" fill={selected === 'paid' ? '#111111' : '#3A3A3A'}>보상받는 것</text>
         </g>
 
         {/* 겹치는 부분 (클릭) */}
@@ -89,15 +112,15 @@ function IkigaiVennDiagram({ isMobile }) {
           const r = VENN_REGIONS[key];
           const isSel = selected === key;
           return (
-            <g key={key} onClick={() => setSelected(key)} style={{ cursor: 'pointer' }}>
-              <circle cx={r.x} cy={r.y} r={isSel ? 25 : 22} fill="#FFFFFF" fillOpacity="0.95" stroke={r.color} strokeWidth={isSel ? 3 : 2.2} />
+            <g key={key} onMouseEnter={() => setSelected(key)} onClick={() => setSelected(key)} style={{ cursor: 'pointer' }}>
+              <circle cx={r.x} cy={r.y} r={isSel ? 27 : 22} fill="#FFFFFF" fillOpacity="0.95" stroke={r.color} strokeWidth={isSel ? 3.4 : 2.2} style={{ transition: 'all 220ms ease' }} />
               <text x={r.x} y={r.y} textAnchor="middle" dominantBaseline="central" fontSize={r.term.length > 2 ? 10 : 12} fontWeight="800" fill={r.color}>{r.term}</text>
             </g>
           );
         })}
 
         {/* 정중앙 이키가이 (클릭) */}
-        <g onClick={() => setSelected('ikigai')} style={{ cursor: 'pointer' }}>
+        <g onMouseEnter={() => setSelected('ikigai')} onClick={() => setSelected('ikigai')} style={{ cursor: 'pointer' }}>
           <circle cx="200" cy="200" r={selected === 'ikigai' ? 30 : 27} fill="#2D9D78" stroke="#FFFFFF" strokeWidth="2.5" />
           <text x="200" y="200" textAnchor="middle" dominantBaseline="central" fontSize="10.5" fontWeight="800" fill="#FFFFFF">이키가이</text>
         </g>
@@ -107,68 +130,44 @@ function IkigaiVennDiagram({ isMobile }) {
       <div style={{ textAlign: 'center', marginTop: '12px' }}>
         <span style={{
           display: 'inline-block',
-          background: '#2D9D78',
-          color: 'white',
+          background: paused ? '#F4F9F6' : '#2D9D78',
+          color: paused ? '#2D9D78' : 'white',
           fontWeight: '700',
-          fontSize: '14px',
+          fontSize: '13px',
           padding: '7px 16px',
           borderRadius: '999px',
-          boxShadow: '0 4px 12px rgba(45, 157, 120, 0.35)',
-          animation: 'ikigaiPulse 1.6s ease-in-out infinite',
+          boxShadow: paused ? 'none' : '0 4px 12px rgba(45, 157, 120, 0.35)',
+          animation: paused ? 'none' : 'ikigaiPulse 1.6s ease-in-out infinite',
         }}>
-          👆 눌러보세요!
+          {paused ? '설명 고정 중' : '자동으로 의미가 열려요'}
         </span>
         <p style={{ fontSize: '12.5px', color: '#9A9A9A', margin: '10px 0 0 0' }}>
-          각 원(요소)과 겹치는 부분, 정중앙을 누르면 의미가 나타나요
+          원 위에 올리거나 터치하면 자동 전환이 잠시 멈춰요
         </p>
       </div>
 
-      {sel && (
-        <div
-          onClick={() => setSelected(null)}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'rgba(0, 0, 0, 0.35)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: '12px',
-            padding: '16px',
-          }}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              background: 'white',
-              borderRadius: '14px',
-              padding: isMobile ? '18px' : '22px',
-              maxWidth: '300px',
-              width: '100%',
-              boxShadow: '0 12px 40px rgba(0, 0, 0, 0.22)',
-              borderTop: `4px solid ${sel.color}`,
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div>
-                <span style={{ fontWeight: '800', fontSize: '20px', color: sel.color }}>{sel.term}</span>
-                <span style={{ fontSize: '12px', color: '#9A9A9A', marginLeft: '6px', fontWeight: '600' }}>{sel.en}</span>
-              </div>
-              <button
-                onClick={() => setSelected(null)}
-                aria-label="닫기"
-                style={{ border: 'none', background: 'none', fontSize: '22px', cursor: 'pointer', color: '#9A9A9A', lineHeight: 1, padding: 0 }}
-              >
-                ×
-              </button>
-            </div>
-            {sel.formula && (
-              <p style={{ margin: '10px 0 8px 0', fontSize: '14px', fontWeight: '700', color: '#1A1A1A' }}>{sel.formula}</p>
-            )}
-            <p style={{ margin: `${sel.formula ? 0 : 10}px 0 0 0`, fontSize: '13.5px', color: '#5A5A5A', lineHeight: '1.65' }}>{sel.note}</p>
-          </div>
+      <div
+        style={{
+          background: 'white',
+          borderRadius: '14px',
+          padding: isMobile ? '18px' : '22px',
+          marginTop: '18px',
+          boxShadow: '0 10px 28px rgba(0, 0, 0, 0.08)',
+          border: '1px solid #ECECEC',
+          borderTop: `4px solid ${sel.color}`,
+          minHeight: isMobile ? '164px' : '150px',
+          transition: 'border-color 220ms ease',
+        }}
+      >
+        <div>
+          <span style={{ fontWeight: '800', fontSize: '20px', color: sel.color }}>{sel.term}</span>
+          <span style={{ fontSize: '12px', color: '#9A9A9A', marginLeft: '6px', fontWeight: '600' }}>{sel.en}</span>
         </div>
-      )}
+        {sel.formula && (
+          <p style={{ margin: '10px 0 8px 0', fontSize: '14px', fontWeight: '700', color: '#1A1A1A' }}>{sel.formula}</p>
+        )}
+        <p style={{ margin: `${sel.formula ? 0 : 10}px 0 0 0`, fontSize: '13.5px', color: '#5A5A5A', lineHeight: '1.65' }}>{sel.note}</p>
+      </div>
     </div>
   );
 }
@@ -273,6 +272,21 @@ export default function IkigaiLanding() {
     paddingBottom: '8px',
     display: 'inline-block',
   };
+  const equationCardStyle = {
+    minWidth: isMobile ? '100%' : '170px',
+    padding: isMobile ? '18px 16px' : '22px 20px',
+    border: '1px solid #ECECEC',
+    borderRadius: '18px',
+    background: '#FFF',
+    textAlign: 'center',
+    boxShadow: '0 10px 24px rgba(0, 0, 0, 0.05)',
+  };
+  const equationSignStyle = {
+    fontSize: isMobile ? '24px' : '30px',
+    fontWeight: '900',
+    color: '#2D9D78',
+    lineHeight: 1,
+  };
   // 문제 제기 섹션 통계
   const anxietyStats = [
     { big: '10명 중 7명', who: '청년', quote: '"나의 적성을 모른다"' },
@@ -287,7 +301,7 @@ export default function IkigaiLanding() {
   ];
 
   return (
-    <div style={{ fontFamily: 'system-ui, -apple-system, sans-serif', overflowX: 'hidden' }}>
+    <div style={{ fontFamily: 'Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif', overflowX: 'hidden' }}>
       {/* Hero Section */}
       <section style={{
         background: 'linear-gradient(135deg, #FFF8E8 0%, #F0E5FF 100%)',
@@ -376,17 +390,33 @@ export default function IkigaiLanding() {
           margin: '28px 0 0 0',
           background: 'white',
           border: '1px solid #ECECEC',
-          borderRadius: '12px',
+          borderRadius: '18px',
           padding: isMobile ? '22px' : '32px',
         }}>
-          <p style={{ margin: 0, fontSize: '15px', color: '#4A4A4A', lineHeight: '1.85' }}>
-            이키가이(生き甲斐)는 <strong style={{ color: '#1A1A1A' }}>'삶(Iki)'</strong>과 <strong style={{ color: '#1A1A1A' }}>'가치 또는 보람(Gai)'</strong>이 합쳐진 단어로, <strong style={{ color: '#2D9D78' }}>'내가 아침에 눈을 뜨는 이유'</strong>, 즉 개인의 삶의 목적과 의미를 뜻하는 개념입니다.
-          </p>
-          <p style={{ margin: '14px 0 0 0', fontSize: '15px', color: '#4A4A4A', lineHeight: '1.85' }}>
-            단순히 직업적인 성공이나 경제적 부를 넘어, <strong style={{ color: '#1A1A1A' }}>내면의 만족감</strong>과 <strong style={{ color: '#1A1A1A' }}>현실적인 지속 가능성</strong>이 완벽하게 균형을 이루는 상태를 의미합니다.
-          </p>
-          <p style={{ margin: '20px 0 0 0', fontSize: '15px', fontWeight: '700', color: '#2D9D78', lineHeight: '1.6' }}>
-            이키가이는 다음 4가지 핵심 요소의 교집합에서 발견됩니다. 👇
+          <div style={{
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: isMobile ? '12px' : '14px',
+          }}>
+            <div style={equationCardStyle}>
+              <span style={{ display: 'block', fontSize: '13px', color: '#E8743B', fontWeight: '900', letterSpacing: '1px', marginBottom: '8px' }}>iki</span>
+              <strong style={{ display: 'block', fontSize: isMobile ? '22px' : '24px', color: '#1A1A1A' }}>삶</strong>
+            </div>
+            <span style={equationSignStyle}>+</span>
+            <div style={equationCardStyle}>
+              <span style={{ display: 'block', fontSize: '13px', color: '#E8743B', fontWeight: '900', letterSpacing: '1px', marginBottom: '8px' }}>gai</span>
+              <strong style={{ display: 'block', fontSize: isMobile ? '22px' : '24px', color: '#1A1A1A' }}>가치 또는 보람</strong>
+            </div>
+            <span style={equationSignStyle}>=</span>
+            <div style={{ ...equationCardStyle, borderColor: '#2D9D78', background: '#F4F9F6' }}>
+              <span style={{ display: 'block', fontSize: '13px', color: '#2D9D78', fontWeight: '900', letterSpacing: '1px', marginBottom: '8px' }}>IKIGAI</span>
+              <strong style={{ display: 'block', fontSize: isMobile ? '22px' : '24px', color: '#1A1A1A' }}>삶의 목적과 의미</strong>
+            </div>
+          </div>
+          <p style={{ margin: '22px 0 0 0', textAlign: 'center', fontSize: '14px', color: '#5A5A5A', lineHeight: '1.7' }}>
+            이키가이는 내가 살아가는 이유와 보람이 만나는 지점을 뜻합니다.
           </p>
         </div>
       </section>
@@ -395,7 +425,7 @@ export default function IkigaiLanding() {
       <section style={{ padding: sectionPad, background: 'white' }}>
         <h3 style={headingStyle}>이키가이를 구성하는 4가지 요소</h3>
         <p style={{ fontSize: '14px', color: '#5A5A5A', lineHeight: '1.7', margin: '12px 0 0 0' }}>
-          💡 네 가지 요소(원)와 그것들이 겹치는 부분, 그리고 정중앙을 눌러 의미를 확인해 보세요.
+          💡 네 가지 요소와 겹치는 의미가 자동으로 펼쳐집니다. 원 위에 올리거나 터치하면 설명이 잠시 멈춰요.
         </p>
 
         <div style={{ margin: '28px 0' }}>
@@ -562,7 +592,7 @@ export default function IkigaiLanding() {
         textAlign: 'center',
       }}>
         <p style={{ fontSize: '18px', fontWeight: '700', color: '#2D9D78', margin: '0 0 16px 0' }}>
-          🎁 2026년 6월 선착순 100명 한정 · 무료 이벤트
+          🎁 이달의 한정 혜택
         </p>
         <div style={{
           display: 'inline-block',
@@ -573,10 +603,10 @@ export default function IkigaiLanding() {
           margin: '0 auto',
         }}>
           <p style={{ margin: 0, fontSize: isMobile ? '16px' : '19px', fontWeight: '800', color: '#1A1A1A', lineHeight: '1.5' }}>
-            🎫 전문가의 이키가이 분석 <span style={{ color: '#E8743B' }}>체험권</span>
+            템플릿과 커리어 코칭권은 <span style={{ color: '#E8743B' }}>한 세트!</span>
           </p>
           <p style={{ margin: '6px 0 0 0', fontSize: isMobile ? '14px' : '15px', fontWeight: '700', color: '#2D9D78' }}>
-            신청자 중 추첨을 통해 증정!
+            7월 리미티드 특별 이벤트
           </p>
         </div>
       </section>
@@ -668,7 +698,7 @@ export default function IkigaiLanding() {
               value={form.region}
               onChange={updateField('region')}
               required
-              placeholder="ex) 서울시 은평구, 고양시 마두동"
+              placeholder="ex) 서울시 마포구 후암동, 서울시 강서구 등촌동"
               style={{ ...inputStyle, minHeight: '88px', resize: 'vertical', lineHeight: '1.5' }}
             />
           </div>
