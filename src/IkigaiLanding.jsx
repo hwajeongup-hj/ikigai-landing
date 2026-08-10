@@ -8,6 +8,9 @@ import workbookPage04 from './assets/ikigai-workbook-page-04.jpg';
 import workbookPage05 from './assets/ikigai-workbook-page-05.jpg';
 import workbookPage06 from './assets/ikigai-workbook-page-06.jpg';
 import workbookPage07 from './assets/ikigai-workbook-page-07.jpg';
+import ikigaiMeaningLife from './assets/ikigai-meaning-life.jpg';
+import ikigaiMeaningValue from './assets/ikigai-meaning-value.jpg';
+import ikigaiMeaningPurpose from './assets/ikigai-meaning-purpose.jpg';
 
 const WORKBOOK_PREVIEW_PAGES = [
   { src: workbookPage02, page: '2' },
@@ -309,8 +312,21 @@ export default function IkigaiLanding() {
     border: '1px solid #ECECEC',
     borderRadius: '18px',
     background: '#FFF',
-    textAlign: 'center',
+    display: 'flex',
+    flexDirection: isMobile ? 'row' : 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: isMobile ? '18px' : '12px',
+    textAlign: isMobile ? 'left' : 'center',
     boxShadow: '0 10px 24px rgba(0, 0, 0, 0.05)',
+    boxSizing: 'border-box',
+  };
+  const equationImageStyle = {
+    width: isMobile ? '96px' : '112px',
+    height: isMobile ? '96px' : '112px',
+    flex: '0 0 auto',
+    objectFit: 'contain',
+    mixBlendMode: 'multiply',
   };
   const equationSignStyle = {
     fontSize: isMobile ? '24px' : '30px',
@@ -318,6 +334,11 @@ export default function IkigaiLanding() {
     color: '#2D9D78',
     lineHeight: 1,
   };
+  const ikigaiFormula = [
+    { term: 'iki', label: '삶', image: ikigaiMeaningLife, alt: '삶을 상징하는 밀밭 이미지' },
+    { term: 'gai', label: '가치 또는 보람', image: ikigaiMeaningValue, alt: '가치와 보람을 상징하는 망원경 이미지' },
+    { term: 'IKIGAI', label: '삶의 목적과 의미', image: ikigaiMeaningPurpose, alt: '삶의 목적과 의미를 상징하는 목표 깃발 이미지', result: true },
+  ];
   // 문제 제기 섹션 통계
   const anxietyStats = [
     { big: '10명 중 7명', who: '청년', quote: '"나의 적성을 모른다"' },
@@ -504,20 +525,47 @@ export default function IkigaiLanding() {
             justifyContent: 'center',
             gap: isMobile ? '12px' : '14px',
           }}>
-            <div style={equationCardStyle}>
-              <span style={{ display: 'block', fontSize: '13px', color: '#E8743B', fontWeight: '900', letterSpacing: '1px', marginBottom: '8px' }}>iki</span>
-              <strong style={{ display: 'block', fontSize: isMobile ? '22px' : '24px', color: '#1A1A1A' }}>삶</strong>
-            </div>
-            <span style={equationSignStyle}>+</span>
-            <div style={equationCardStyle}>
-              <span style={{ display: 'block', fontSize: '13px', color: '#E8743B', fontWeight: '900', letterSpacing: '1px', marginBottom: '8px' }}>gai</span>
-              <strong style={{ display: 'block', fontSize: isMobile ? '22px' : '24px', color: '#1A1A1A' }}>가치 또는 보람</strong>
-            </div>
-            <span style={equationSignStyle}>=</span>
-            <div style={{ ...equationCardStyle, borderColor: '#2D9D78', background: '#F4F9F6' }}>
-              <span style={{ display: 'block', fontSize: '13px', color: '#2D9D78', fontWeight: '900', letterSpacing: '1px', marginBottom: '8px' }}>IKIGAI</span>
-              <strong style={{ display: 'block', fontSize: isMobile ? '22px' : '24px', color: '#1A1A1A' }}>삶의 목적과 의미</strong>
-            </div>
+            {ikigaiFormula.map((item, index) => (
+              <React.Fragment key={item.term}>
+                <div style={{
+                  ...equationCardStyle,
+                  ...(item.result ? { borderColor: '#2D9D78', background: '#F4F9F6' } : {}),
+                }}>
+                  <img
+                    src={item.image}
+                    alt={item.alt}
+                    loading="lazy"
+                    decoding="async"
+                    draggable="false"
+                    style={equationImageStyle}
+                  />
+                  <div style={{ minWidth: 0 }}>
+                    <span style={{
+                      display: 'block',
+                      fontSize: '13px',
+                      color: item.result ? '#2D9D78' : '#E8743B',
+                      fontWeight: '900',
+                      letterSpacing: '1px',
+                      marginBottom: '8px',
+                    }}>
+                      {item.term}
+                    </span>
+                    <strong style={{
+                      display: 'block',
+                      fontSize: isMobile ? '21px' : '22px',
+                      color: '#1A1A1A',
+                      lineHeight: '1.3',
+                      wordBreak: 'keep-all',
+                    }}>
+                      {item.label}
+                    </strong>
+                  </div>
+                </div>
+                {index < ikigaiFormula.length - 1 && (
+                  <span style={equationSignStyle}>{index === 0 ? '+' : '='}</span>
+                )}
+              </React.Fragment>
+            ))}
           </div>
           <p style={{ margin: '22px 0 0 0', textAlign: 'center', fontSize: '14px', color: '#5A5A5A', lineHeight: '1.7' }}>
             이키가이는 내가 살아가는 이유와 보람이 만나는 지점을 뜻합니다.
