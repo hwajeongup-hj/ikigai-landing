@@ -187,7 +187,23 @@ function IkigaiVennDiagram({ isMobile }) {
   );
 }
 
+const AUDIENCE_ROUTES = {
+  uni: { variant: '이키가이 가이드북 랜딩 / 대학생' },
+  job: { variant: '이키가이 가이드북 랜딩 / 취준생' },
+  worker: { variant: '이키가이 가이드북 랜딩 / 직장인' },
+};
+
+function resolveAudienceRoute(pathname) {
+  const routeKey = String(pathname || '')
+    .split('/')
+    .filter(Boolean)
+    .pop();
+
+  return AUDIENCE_ROUTES[routeKey] || { variant: '이키가이 가이드북 랜딩' };
+}
+
 export default function IkigaiLanding() {
+  const audienceRoute = resolveAudienceRoute(window.location.pathname);
   const [form, setForm] = useState({ name: '', phone: '', birthdate: '', region: '', occupation: '', concern: '' });
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -214,7 +230,7 @@ export default function IkigaiLanding() {
     const webhookUrl = 'https://script.google.com/macros/s/AKfycbwJNnO29D7hYl-AjKSpwjHsNu7uRJAOfxkL2TboG58WzZf0kUGLWMSi0IbioR2_oDh5/exec';
     const params = new URLSearchParams(window.location.search);
     const payload = {
-      variant: '이키가이 가이드북 랜딩',
+      variant: audienceRoute.variant,
       sheetTab: 'Ikigai_Landing',
       name: form.name.trim(),
       phone: form.phone.trim(),

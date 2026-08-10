@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// GitHub Pages는 https://<user>.github.io/<repo>/ 경로로 서빙되므로 base 지정 필요
+// GitHub Pages는 저장소 하위 경로, Vercel은 도메인 루트에서 자산을 서빙한다.
 export default defineConfig({
   plugins: [react()],
-  base: '/ikigai-landing/',
+  base: process.env.VERCEL ? '/' : '/ikigai-landing/',
 });
