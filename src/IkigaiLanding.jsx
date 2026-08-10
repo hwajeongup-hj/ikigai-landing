@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import typeDiscovery from './assets/type-discovery.jpg';
 import typeDesign from './assets/type-design.jpg';
 import typeExecution from './assets/type-execution.jpg';
@@ -206,6 +206,7 @@ function resolveAudienceRoute(pathname) {
 }
 
 export default function IkigaiLanding() {
+  const pageRef = useRef(null);
   const audienceRoute = resolveAudienceRoute(window.location.pathname);
   const [form, setForm] = useState({ name: '', phone: '', birthdate: '', region: '', occupation: '', concern: '' });
   const [submitted, setSubmitted] = useState(false);
@@ -219,6 +220,40 @@ export default function IkigaiLanding() {
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
   }, []);
+
+  useEffect(() => {
+    const root = pageRef.current;
+    if (!root) return undefined;
+
+    const targets = Array.from(root.querySelectorAll('[data-reveal]'));
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    targets.forEach((target) => {
+      target.style.setProperty('--reveal-delay', `${target.dataset.revealDelay || 0}ms`);
+    });
+
+    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+      targets.forEach((target) => target.classList.add('is-visible'));
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -10% 0px',
+    });
+
+    targets.forEach((target) => {
+      if (!target.classList.contains('is-visible')) observer.observe(target);
+    });
+
+    return () => observer.disconnect();
+  }, [isMobile]);
 
   const updateField = (key) => (e) => setForm((prev) => ({ ...prev, [key]: e.target.value }));
   const updateBirthdate = (e) => {
@@ -307,23 +342,25 @@ export default function IkigaiLanding() {
     display: 'inline-block',
   };
   const equationCardStyle = {
-    minWidth: isMobile ? '100%' : '170px',
-    padding: isMobile ? '18px 16px' : '22px 20px',
+    width: isMobile ? '100%' : '220px',
+    minWidth: isMobile ? '100%' : '190px',
+    minHeight: isMobile ? '286px' : '300px',
+    padding: isMobile ? '22px 18px 24px' : '24px 20px 26px',
     border: '1px solid #ECECEC',
     borderRadius: '18px',
     background: '#FFF',
     display: 'flex',
-    flexDirection: isMobile ? 'row' : 'column',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: isMobile ? '18px' : '12px',
-    textAlign: isMobile ? 'left' : 'center',
+    gap: isMobile ? '14px' : '16px',
+    textAlign: 'center',
     boxShadow: '0 10px 24px rgba(0, 0, 0, 0.05)',
     boxSizing: 'border-box',
   };
   const equationImageStyle = {
-    width: isMobile ? '96px' : '112px',
-    height: isMobile ? '96px' : '112px',
+    width: isMobile ? '138px' : '132px',
+    height: isMobile ? '138px' : '132px',
     flex: '0 0 auto',
     objectFit: 'contain',
     mixBlendMode: 'multiply',
@@ -353,7 +390,38 @@ export default function IkigaiLanding() {
   ];
 
   return (
-    <div style={{ fontFamily: 'Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif', overflowX: 'hidden' }}>
+    <div ref={pageRef} className="reveal-page" style={{ fontFamily: 'Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif', overflowX: 'hidden' }}>
+      <style>{`
+        .reveal-page [data-reveal] {
+          opacity: 0;
+          transform: translate3d(0, 24px, 0);
+          transition:
+            opacity 680ms ease var(--reveal-delay, 0ms),
+            transform 680ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+          will-change: opacity, transform;
+        }
+
+        .reveal-page [data-reveal="card"] {
+          transform: translate3d(0, 20px, 0) scale(0.975);
+        }
+
+        .reveal-page [data-reveal="image"] {
+          transform: translate3d(0, 18px, 0) scale(0.96);
+        }
+
+        .reveal-page [data-reveal].is-visible {
+          opacity: 1;
+          transform: translate3d(0, 0, 0) scale(1);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .reveal-page [data-reveal] {
+            opacity: 1;
+            transform: none;
+            transition: none;
+          }
+        }
+      `}</style>
       {/* Hero Section */}
       <section style={{
         background: 'linear-gradient(135deg, #FFF8E8 0%, #F0E5FF 100%)',
@@ -364,7 +432,7 @@ export default function IkigaiLanding() {
         alignItems: 'center',
       }}>
         <div style={{ flex: 1 }}>
-          <h1 style={{
+          <h1 data-reveal="up" style={{
             fontSize: '24px',
             fontWeight: '900',
             margin: '0 0 8px 0',
@@ -374,7 +442,7 @@ export default function IkigaiLanding() {
             IKIGAI
           </h1>
 
-          <h2 style={{
+          <h2 data-reveal="up" data-reveal-delay="80" style={{
             fontSize: isMobile ? '40px' : '56px',
             fontWeight: '900',
             margin: '0 0 28px 0',
@@ -384,7 +452,7 @@ export default function IkigaiLanding() {
             GUIDE BOOK
           </h2>
 
-          <p style={{
+          <p data-reveal="up" data-reveal-delay="160" style={{
             fontSize: isMobile ? '17px' : '20px',
             color: '#1A1A1A',
             margin: '0 0 14px 0',
@@ -395,7 +463,7 @@ export default function IkigaiLanding() {
             매일 아침 설레며 눈뜨는 삶, 당신에게도 가능합니다.
           </p>
 
-          <p style={{
+          <p data-reveal="up" data-reveal-delay="240" style={{
             fontSize: '15px',
             color: '#5A5A5A',
             margin: '0 0 24px 0',
@@ -406,7 +474,7 @@ export default function IkigaiLanding() {
             이키가이로 나만의 진짜 강점과 커리어 방향을 설계해 보세요.
           </p>
 
-          <a href="#apply" style={{
+          <a href="#apply" data-reveal="up" data-reveal-delay="320" style={{
             display: 'inline-block',
             background: '#2D9D78',
             color: 'white',
@@ -422,7 +490,7 @@ export default function IkigaiLanding() {
         </div>
 
         {/* Right - Diagram Image */}
-        <div style={{
+        <div data-reveal="image" data-reveal-delay="140" style={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -441,7 +509,7 @@ export default function IkigaiLanding() {
 
       {/* Problem Section (페인포인트를 상단으로 배치) */}
       <section style={{ padding: isMobile ? `56px ${padX}` : '80px 60px', background: '#1A1A1A' }}>
-        <h3 style={{
+        <h3 data-reveal="up" style={{
           fontSize: isMobile ? '22px' : '28px',
           fontWeight: '800',
           color: 'white',
@@ -459,8 +527,8 @@ export default function IkigaiLanding() {
           maxWidth: '720px',
           margin: '0 auto',
         }}>
-          {anxietyStats.map((s) => (
-            <div key={s.who} style={{
+          {anxietyStats.map((s, index) => (
+            <div key={s.who} data-reveal="card" data-reveal-delay={index * 110} style={{
               flex: 1,
               background: '#262626',
               border: '1px solid #383838',
@@ -475,7 +543,7 @@ export default function IkigaiLanding() {
           ))}
         </div>
 
-        <p style={{
+        <p data-reveal="up" style={{
           textAlign: 'center',
           fontSize: isMobile ? '16px' : '18px',
           color: 'white',
@@ -489,17 +557,17 @@ export default function IkigaiLanding() {
 
       {/* Solution Bridge Section */}
       <section style={{ padding: isMobile ? `48px ${padX}` : '64px 60px', background: 'white', textAlign: 'center' }}>
-        <p style={{ fontSize: isMobile ? '14px' : '15px', color: '#9A9A9A', fontWeight: '600', margin: '0 0 10px 0' }}>
+        <p data-reveal="up" style={{ fontSize: isMobile ? '14px' : '15px', color: '#9A9A9A', fontWeight: '600', margin: '0 0 10px 0' }}>
           막막한 그 질문의 답을 찾는 방법
         </p>
-        <h3 style={{ fontSize: isMobile ? '24px' : '32px', fontWeight: '800', color: '#1A1A1A', margin: 0, lineHeight: '1.4' }}>
+        <h3 data-reveal="up" data-reveal-delay="90" style={{ fontSize: isMobile ? '24px' : '32px', fontWeight: '800', color: '#1A1A1A', margin: 0, lineHeight: '1.4' }}>
           그 정답이 바로, <span style={{ color: '#2D9D78' }}>'이키가이'</span>입니다.
         </h3>
       </section>
 
       {/* What is IKIGAI Section */}
       <section style={{ padding: sectionPad, background: '#FAFAFA' }}>
-        <h3 style={{
+        <h3 data-reveal="up" style={{
           fontSize: '20px',
           fontWeight: '700',
           color: '#1A1A1A',
@@ -527,10 +595,20 @@ export default function IkigaiLanding() {
           }}>
             {ikigaiFormula.map((item, index) => (
               <React.Fragment key={item.term}>
-                <div style={{
+                <div data-reveal="card" data-reveal-delay={index * 120} style={{
                   ...equationCardStyle,
                   ...(item.result ? { borderColor: '#2D9D78', background: '#F4F9F6' } : {}),
                 }}>
+                  <span style={{
+                    display: 'block',
+                    fontSize: isMobile ? '15px' : '14px',
+                    color: item.result ? '#2D9D78' : '#E8743B',
+                    fontWeight: '900',
+                    letterSpacing: '1px',
+                    lineHeight: '1.2',
+                  }}>
+                    {item.term}
+                  </span>
                   <img
                     src={item.image}
                     alt={item.alt}
@@ -539,35 +617,24 @@ export default function IkigaiLanding() {
                     draggable="false"
                     style={equationImageStyle}
                   />
-                  <div style={{ minWidth: 0 }}>
-                    <span style={{
-                      display: 'block',
-                      fontSize: '13px',
-                      color: item.result ? '#2D9D78' : '#E8743B',
-                      fontWeight: '900',
-                      letterSpacing: '1px',
-                      marginBottom: '8px',
-                    }}>
-                      {item.term}
-                    </span>
-                    <strong style={{
-                      display: 'block',
-                      fontSize: isMobile ? '21px' : '22px',
-                      color: '#1A1A1A',
-                      lineHeight: '1.3',
-                      wordBreak: 'keep-all',
-                    }}>
-                      {item.label}
-                    </strong>
-                  </div>
+                  <strong style={{
+                    display: 'block',
+                    minHeight: isMobile ? '32px' : '58px',
+                    fontSize: isMobile ? '21px' : '22px',
+                    color: '#1A1A1A',
+                    lineHeight: '1.3',
+                    wordBreak: 'keep-all',
+                  }}>
+                    {item.label}
+                  </strong>
                 </div>
                 {index < ikigaiFormula.length - 1 && (
-                  <span style={equationSignStyle}>{index === 0 ? '+' : '='}</span>
+                  <span data-reveal="up" data-reveal-delay={index * 120 + 60} style={equationSignStyle}>{index === 0 ? '+' : '='}</span>
                 )}
               </React.Fragment>
             ))}
           </div>
-          <p style={{ margin: '22px 0 0 0', textAlign: 'center', fontSize: '14px', color: '#5A5A5A', lineHeight: '1.7' }}>
+          <p data-reveal="up" style={{ margin: '22px 0 0 0', textAlign: 'center', fontSize: '14px', color: '#5A5A5A', lineHeight: '1.7' }}>
             이키가이는 내가 살아가는 이유와 보람이 만나는 지점을 뜻합니다.
           </p>
         </div>
@@ -575,16 +642,16 @@ export default function IkigaiLanding() {
 
       {/* IKIGAI Deep Dive Section */}
       <section style={{ padding: sectionPad, background: 'white' }}>
-        <h3 style={headingStyle}>이키가이를 구성하는 4가지 요소</h3>
-        <p style={{ fontSize: '14px', color: '#5A5A5A', lineHeight: '1.7', margin: '12px 0 0 0' }}>
+        <h3 data-reveal="up" style={headingStyle}>이키가이를 구성하는 4가지 요소</h3>
+        <p data-reveal="up" data-reveal-delay="80" style={{ fontSize: '14px', color: '#5A5A5A', lineHeight: '1.7', margin: '12px 0 0 0' }}>
           💡 네 가지 요소와 겹치는 의미가 자동으로 펼쳐집니다. 원 위에 올리거나 터치하면 설명이 잠시 멈춰요.
         </p>
 
-        <div style={{ margin: '28px 0' }}>
+        <div data-reveal="image" style={{ margin: '28px 0' }}>
           <IkigaiVennDiagram isMobile={isMobile} />
         </div>
 
-        <div style={{
+        <div data-reveal="card" style={{
           background: 'linear-gradient(135deg, #FFF8E8 0%, #F0E5FF 100%)',
           borderRadius: '12px',
           padding: isMobile ? '20px' : '24px',
@@ -596,7 +663,7 @@ export default function IkigaiLanding() {
           </p>
         </div>
 
-        <div style={{
+        <div data-reveal="card" style={{
           marginTop: '40px',
           background: '#F4F9F6',
           borderRadius: '12px',
@@ -613,10 +680,10 @@ export default function IkigaiLanding() {
 
       {/* Bridge + Workbook Types Section */}
       <section style={{ padding: sectionPad, background: '#FAFAFA', textAlign: 'center' }}>
-        <p style={{ fontSize: '15px', color: '#9A9A9A', fontWeight: '600', margin: '0 0 8px 0' }}>
+        <p data-reveal="up" style={{ fontSize: '15px', color: '#9A9A9A', fontWeight: '600', margin: '0 0 8px 0' }}>
           그래서 준비했습니다.
         </p>
-        <h3 style={{
+        <h3 data-reveal="up" data-reveal-delay="80" style={{
           fontSize: isMobile ? '22px' : '28px',
           fontWeight: '800',
           color: '#1A1A1A',
@@ -626,7 +693,7 @@ export default function IkigaiLanding() {
           당신의 <span style={{ color: '#2D9D78' }}>'진짜 나'</span>를 찾아줄<br />
           3가지 맞춤형 템플릿
         </h3>
-        <p style={{ fontSize: '15px', color: '#5A5A5A', lineHeight: '1.7', margin: '0 0 40px 0' }}>
+        <p data-reveal="up" data-reveal-delay="160" style={{ fontSize: '15px', color: '#5A5A5A', lineHeight: '1.7', margin: '0 0 40px 0' }}>
           성향에 맞는 템플릿을 골라, 진정으로 사랑하는 것을 발견하고<br style={{ display: isMobile ? 'none' : 'block' }} />
           나만의 강점으로 앞으로 나아갈 삶의 방향을 세워보세요.
         </p>
@@ -642,8 +709,8 @@ export default function IkigaiLanding() {
           WebkitOverflowScrolling: 'touch',
           paddingBottom: isMobile ? '6px' : 0,
         }}>
-          {workbookTypes.map((t) => (
-            <div key={t.tag} style={{
+          {workbookTypes.map((t, index) => (
+            <div key={t.tag} data-reveal="card" data-reveal-delay={index * 100} style={{
               flex: isMobile ? '0 0 80%' : '1',
               scrollSnapAlign: isMobile ? 'center' : undefined,
               background: 'white',
@@ -683,14 +750,14 @@ export default function IkigaiLanding() {
           ))}
         </div>
         {isMobile && (
-          <p style={{ fontSize: '12.5px', color: '#9A9A9A', margin: '14px 0 0 0' }}>
+          <p data-reveal="up" style={{ fontSize: '12.5px', color: '#9A9A9A', margin: '14px 0 0 0' }}>
             ← 옆으로 넘겨보세요 →
           </p>
         )}
 
         {/* 템플릿 미리보기 */}
         <div style={{ maxWidth: '900px', margin: isMobile ? '44px auto 0' : '56px auto 0' }}>
-          <p style={{ fontSize: isMobile ? '17px' : '20px', fontWeight: '800', color: '#1A1A1A', margin: '0 0 6px 0' }}>
+          <p data-reveal="up" style={{ fontSize: isMobile ? '17px' : '20px', fontWeight: '800', color: '#1A1A1A', margin: '0 0 6px 0' }}>
             템플릿 미리보기
           </p>
           <div style={{
@@ -704,6 +771,8 @@ export default function IkigaiLanding() {
             {WORKBOOK_PREVIEW_PAGES.map((preview) => (
               <figure
                 key={preview.page}
+                data-reveal="card"
+                data-reveal-delay={(Number(preview.page) - 2) * 70}
                 style={{
                   margin: 0,
                   flex: `0 0 ${isMobile ? '78vw' : '280px'}`,
@@ -731,7 +800,7 @@ export default function IkigaiLanding() {
           </div>
         </div>
 
-        <a href="#apply" style={{
+        <a href="#apply" data-reveal="up" style={{
           display: 'inline-block',
           marginTop: isMobile ? '36px' : '44px',
           background: '#2D9D78',
@@ -753,7 +822,7 @@ export default function IkigaiLanding() {
         padding: sectionPad,
         textAlign: 'center',
       }}>
-        <span style={{
+        <span data-reveal="up" style={{
           display: 'inline-block',
           background: '#2D9D78',
           color: 'white',
@@ -767,7 +836,7 @@ export default function IkigaiLanding() {
           🎁 이달의 한정 혜택
         </span>
 
-        <h3 style={{
+        <h3 data-reveal="up" data-reveal-delay="80" style={{
           fontSize: isMobile ? '22px' : '28px',
           fontWeight: '800',
           color: '#1A1A1A',
@@ -777,7 +846,7 @@ export default function IkigaiLanding() {
           템플릿과 커리어 코칭권은 <span style={{ color: '#2D9D78' }}>한 세트!</span>
         </h3>
 
-        <p style={{ fontSize: isMobile ? '15px' : '16px', color: '#5A5A5A', lineHeight: '1.8', margin: '0 0 32px 0' }}>
+        <p data-reveal="up" data-reveal-delay="160" style={{ fontSize: isMobile ? '15px' : '16px', color: '#5A5A5A', lineHeight: '1.8', margin: '0 0 32px 0' }}>
           <strong style={{ color: '#E8743B' }}>7월 리미티드 특별 이벤트</strong>로{' '}
           <br style={{ display: isMobile ? 'none' : 'block' }} />
           당신의 고민에 꼭 맞는 <strong style={{ color: '#1A1A1A' }}>이키가이 템플릿(PDF)</strong>과 커리어 코칭권 안내를 함께 받아보세요.
@@ -793,7 +862,7 @@ export default function IkigaiLanding() {
           margin: '0 auto',
           textAlign: 'left',
         }}>
-          <div style={{
+          <div data-reveal="card" style={{
             flex: isMobile ? '0 1 auto' : '1 1 240px',
             background: 'white',
             borderRadius: '14px',
@@ -806,7 +875,7 @@ export default function IkigaiLanding() {
               3가지 유형 중 내 성향과 고민에 맞는 템플릿을 골라 무료로 보내드려요.
             </p>
           </div>
-          <div style={{
+          <div data-reveal="card" data-reveal-delay="100" style={{
             flex: isMobile ? '0 1 auto' : '1 1 240px',
             background: 'white',
             borderRadius: '14px',
@@ -820,7 +889,7 @@ export default function IkigaiLanding() {
               템플릿 신청과 함께, 전문가와 1:1로 내 커리어를 진단받는 코칭권 이벤트 안내를 드려요.
             </p>
           </div>
-          <div style={{
+          <div data-reveal="card" data-reveal-delay="200" style={{
             flex: isMobile ? '0 1 auto' : '1 1 240px',
             background: 'white',
             borderRadius: '14px',
@@ -842,14 +911,14 @@ export default function IkigaiLanding() {
         padding: isMobile ? `8px ${padX} 48px` : '8px 60px 64px',
         textAlign: 'center',
       }}>
-        <p style={{ fontSize: isMobile ? '17px' : '20px', fontWeight: '800', color: '#1A1A1A', margin: '0 0 6px 0', lineHeight: '1.5' }}>
+        <p data-reveal="up" style={{ fontSize: isMobile ? '17px' : '20px', fontWeight: '800', color: '#1A1A1A', margin: '0 0 6px 0', lineHeight: '1.5' }}>
           지금 신청하고 가장 먼저 만나보세요
         </p>
-        <p style={{ fontSize: '14px', color: '#5A5A5A', margin: '0 0 24px 0' }}>
+        <p data-reveal="up" data-reveal-delay="80" style={{ fontSize: '14px', color: '#5A5A5A', margin: '0 0 24px 0' }}>
           아래 정보를 남겨주시면, 무료 템플릿과 1:1 커리어 진단 코칭권 안내를 보내드려요.
         </p>
 
-        <form onSubmit={handleSubmit} style={{
+        <form onSubmit={handleSubmit} data-reveal="card" style={{
           maxWidth: '480px',
           margin: '0 auto',
           textAlign: 'left',
@@ -996,7 +1065,7 @@ export default function IkigaiLanding() {
       {/* Reference Video Section */}
       <section style={{ padding: sectionPad, background: 'white' }}>
         <div style={{ maxWidth: '720px', margin: '0 auto', textAlign: 'center' }}>
-          <span style={{
+          <span data-reveal="up" style={{
             display: 'inline-block',
             background: '#F0F0F0',
             color: '#5A5A5A',
@@ -1008,7 +1077,7 @@ export default function IkigaiLanding() {
           }}>
             참고 영상
           </span>
-          <h3 style={{
+          <h3 data-reveal="up" data-reveal-delay="80" style={{
             fontSize: isMobile ? '20px' : '24px',
             fontWeight: '800',
             color: '#1A1A1A',
@@ -1018,7 +1087,7 @@ export default function IkigaiLanding() {
             이키가이, 영상으로 더 알아보기
           </h3>
 
-          <div style={{
+          <div data-reveal="image" style={{
             position: 'relative',
             paddingBottom: '56.25%',
             height: 0,
@@ -1036,7 +1105,7 @@ export default function IkigaiLanding() {
             />
           </div>
 
-          <p style={{ fontSize: '12.5px', color: '#9A9A9A', lineHeight: '1.7', margin: 0 }}>
+          <p data-reveal="up" style={{ fontSize: '12.5px', color: '#9A9A9A', lineHeight: '1.7', margin: 0 }}>
             출처: YouTube ‘IKIGAI test’ 채널 —{' '}
             <a
               href="https://youtu.be/qQdZTVwzXWY"
