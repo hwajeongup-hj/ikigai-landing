@@ -847,7 +847,7 @@ export default function IkigaiLanding() {
         </h3>
 
         <p data-reveal="up" data-reveal-delay="160" style={{ fontSize: isMobile ? '15px' : '16px', color: '#5A5A5A', lineHeight: '1.8', margin: '0 0 32px 0' }}>
-          <strong style={{ color: '#E8743B' }}>7월 리미티드 특별 이벤트</strong>로{' '}
+          <strong style={{ color: '#E8743B' }}>8월 리미티드 특별 이벤트</strong>로{' '}
           <br style={{ display: isMobile ? 'none' : 'block' }} />
           당신의 고민에 꼭 맞는 <strong style={{ color: '#1A1A1A' }}>이키가이 템플릿(PDF)</strong>과 커리어 코칭권 안내를 함께 받아보세요.
         </p>
@@ -883,7 +883,7 @@ export default function IkigaiLanding() {
             boxShadow: '0 6px 20px rgba(0, 0, 0, 0.06)',
             border: '2px dashed #FFB84D',
           }}>
-            <p style={{ margin: '0 0 8px 0', fontSize: '13px', fontWeight: '800', color: '#E8743B' }}>BENEFIT 2 · 7월 리미티드 특별 이벤트</p>
+            <p style={{ margin: '0 0 8px 0', fontSize: '13px', fontWeight: '800', color: '#E8743B' }}>BENEFIT 2 · 8월 리미티드 특별 이벤트</p>
             <p style={{ margin: '0 0 6px 0', fontSize: '17px', fontWeight: '800', color: '#1A1A1A' }}>1:1 커리어 진단 코칭권</p>
             <p style={{ margin: 0, fontSize: '14px', color: '#5A5A5A', lineHeight: '1.6' }}>
               템플릿 신청과 함께, 전문가와 1:1로 내 커리어를 진단받는 코칭권 이벤트 안내를 드려요.
