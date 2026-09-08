@@ -1120,19 +1120,6 @@ export default function IkigaiLanding() {
           </p>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer style={{
-        background: 'white',
-        borderTop: '1px solid #e0e0e0',
-        padding: isMobile ? `32px ${padX}` : '40px 60px',
-        textAlign: 'center',
-        fontSize: '14px',
-        color: '#5A5A5A',
-      }}>
-        <p style={{ margin: 0, fontWeight: '700', marginBottom: '8px' }}>WE-IT</p>
-        <p style={{ margin: 0 }}>CONNECT · LEARN · GROW</p>
-      </footer>
     </div>
   );
 }
