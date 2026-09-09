@@ -11,6 +11,7 @@ import workbookPage07 from './assets/ikigai-workbook-page-07.jpg';
 import ikigaiMeaningLife from './assets/ikigai-meaning-life.jpg';
 import ikigaiMeaningValue from './assets/ikigai-meaning-value.jpg';
 import ikigaiMeaningPurpose from './assets/ikigai-meaning-purpose.jpg';
+import ikigaiStudyCat from './assets/ikigai-study-cat.png';
 
 const WORKBOOK_PREVIEW_PAGES = [
   { src: workbookPage02, page: '2' },
@@ -489,11 +490,15 @@ export default function IkigaiLanding() {
           </a>
         </div>
 
-        {/* Right - Diagram Image */}
+        {/* Right - Diagram and study cat */}
         <div data-reveal="image" data-reveal-delay="140" style={{
           display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+          gap: '12px',
+          width: isMobile ? '100%' : '380px',
+          maxWidth: '380px',
+          flexShrink: 0,
         }}>
           <img
             src={IKIGAI_DIAGRAM_IMAGE}
@@ -502,6 +507,21 @@ export default function IkigaiLanding() {
               width: '100%',
               maxWidth: '380px',
               height: 'auto',
+              display: 'block',
+            }}
+          />
+          <img
+            src={ikigaiStudyCat}
+            alt="노트에 글을 쓰며 생각에 잠긴 고양이"
+            width="746"
+            height="668"
+            decoding="async"
+            style={{
+              width: isMobile ? '148px' : '176px',
+              maxWidth: '48%',
+              height: 'auto',
+              display: 'block',
+              filter: 'drop-shadow(0 10px 14px rgba(90, 71, 53, 0.14))',
             }}
           />
         </div>
