@@ -426,7 +426,7 @@ export default function IkigaiLanding() {
       {/* Hero Section */}
       <section style={{
         background: 'linear-gradient(135deg, #FFF8E8 0%, #F0E5FF 100%)',
-        padding: isMobile ? `48px ${padX}` : '80px 60px',
+        padding: isMobile ? `48px ${padX} 0` : '80px 60px 0',
         display: 'flex',
         flexDirection: isMobile ? 'column' : 'row',
         gap: isMobile ? '32px' : '60px',
@@ -495,7 +495,8 @@ export default function IkigaiLanding() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-end',
-          gap: '12px',
+          alignSelf: isMobile ? 'center' : 'flex-end',
+          gap: 0,
           width: isMobile ? '100%' : '380px',
           maxWidth: '380px',
           flexShrink: 0,
@@ -517,8 +518,8 @@ export default function IkigaiLanding() {
             height="668"
             decoding="async"
             style={{
-              width: isMobile ? '148px' : '176px',
-              maxWidth: '48%',
+              width: isMobile ? '222px' : '264px',
+              maxWidth: '100%',
               height: 'auto',
               display: 'block',
               filter: 'drop-shadow(0 10px 14px rgba(90, 71, 53, 0.14))',
