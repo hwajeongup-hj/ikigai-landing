@@ -460,8 +460,8 @@ export default function IkigaiLanding() {
             fontWeight: '800',
             lineHeight: '1.5',
           }}>
-            좋아하는 일로 먹고살 수는 없을까?<br />
-            매일 아침 설레며 눈뜨는 삶, 당신에게도 가능합니다.
+            네가 진짜 좋아하는 것,<br />
+            우리 함께 찾아보자!
           </p>
 
           <p data-reveal="up" data-reveal-delay="240" style={{
@@ -471,8 +471,12 @@ export default function IkigaiLanding() {
             fontWeight: '500',
             lineHeight: '1.7',
           }}>
-            퇴사와 이직 사이에서 길을 잃었다면,<br />
-            이키가이로 나만의 진짜 강점과 커리어 방향을 설계해 보세요.
+            내가 좋아하는 일과<br />
+            세상에 도움이 되는 일은 어디에서 만날까?<br /><br />
+            <strong style={{ color: '#1A1A1A', fontWeight: '800' }}>
+              4가지 원을 하나씩 채우며,<br />
+              나다운 삶의 방향을 찾아보자.
+            </strong>
           </p>
 
           <a href="#apply" data-reveal="up" data-reveal-delay="320" style={{
