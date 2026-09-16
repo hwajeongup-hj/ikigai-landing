@@ -12,6 +12,7 @@ import ikigaiMeaningLife from './assets/ikigai-meaning-life.jpg';
 import ikigaiMeaningValue from './assets/ikigai-meaning-value.jpg';
 import ikigaiMeaningPurpose from './assets/ikigai-meaning-purpose.jpg';
 import ikigaiStudyCat from './assets/ikigai-study-cat.png';
+import ikigaiStudyHamster from './assets/ikigai-study-hamster.png';
 
 const WORKBOOK_PREVIEW_PAGES = [
   { src: workbookPage02, page: '2' },
@@ -195,6 +196,7 @@ const AUDIENCE_ROUTES = {
   uni: { variant: '이키가이 가이드북 랜딩 / 대학생' },
   job: { variant: '이키가이 가이드북 랜딩 / 취준생' },
   worker: { variant: '이키가이 가이드북 랜딩 / 직장인' },
+  ham: { variant: '이키가이 가이드북 랜딩 / 햄찌', sheetTab: '10월 이키 재능', heroCharacter: 'hamster' },
 };
 
 function resolveAudienceRoute(pathname) {
@@ -209,6 +211,7 @@ function resolveAudienceRoute(pathname) {
 export default function IkigaiLanding() {
   const pageRef = useRef(null);
   const audienceRoute = resolveAudienceRoute(window.location.pathname);
+  const isHamsterLanding = audienceRoute.heroCharacter === 'hamster';
   const [form, setForm] = useState({ name: '', phone: '', birthdate: '', region: '', occupation: '', concern: '' });
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -270,7 +273,7 @@ export default function IkigaiLanding() {
     const params = new URLSearchParams(window.location.search);
     const payload = {
       variant: audienceRoute.variant,
-      sheetTab: 'Ikigai_Landing',
+      sheetTab: audienceRoute.sheetTab || 'Ikigai_Landing',
       name: form.name.trim(),
       phone: form.phone.trim(),
       birthdate: form.birthdate.trim(),
@@ -494,7 +497,7 @@ export default function IkigaiLanding() {
           </a>
         </div>
 
-        {/* Right - Diagram and study cat */}
+        {/* Right - Diagram and route-specific character */}
         <div data-reveal="image" data-reveal-delay="140" style={{
           display: 'flex',
           flexDirection: 'column',
@@ -516,10 +519,10 @@ export default function IkigaiLanding() {
             }}
           />
           <img
-            src={ikigaiStudyCat}
-            alt="노트에 글을 쓰며 생각에 잠긴 고양이"
-            width="746"
-            height="668"
+            src={isHamsterLanding ? ikigaiStudyHamster : ikigaiStudyCat}
+            alt={isHamsterLanding ? '초록색 대학 점퍼를 입고 생각에 잠긴 햄스터' : '노트에 글을 쓰며 생각에 잠긴 고양이'}
+            width={isHamsterLanding ? 1242 : 746}
+            height={isHamsterLanding ? 1266 : 668}
             decoding="async"
             style={{
               width: isMobile ? '222px' : '264px',

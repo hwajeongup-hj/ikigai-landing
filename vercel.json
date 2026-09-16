@@ -5,7 +5,8 @@
   "rewrites": [
     { "source": "/uni", "destination": "/index.html" },
     { "source": "/job", "destination": "/index.html" },
-    { "source": "/worker", "destination": "/index.html" }
+    { "source": "/worker", "destination": "/index.html" },
+    { "source": "/ham", "destination": "/index.html" }
   ],
   "headers": [
     {
