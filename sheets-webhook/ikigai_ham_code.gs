@@ -3,7 +3,12 @@
  * 신청 항목과 알림은 기존 이키가이 랜딩과 동일하며 저장 탭만 분리한다.
  */
 function registerIkigaiHamCampaign() {
-  SHEET_TAB_NAMES.Ikigai_Ham = '10월 이키 재능';
+  SHEET_TAB_NAMES.Ikigai_Ham = '10월 이키 재능 햄찌';
+  // 이름 변경 전 페이지를 열어 둔 신청도 같은 탭으로 연결한다.
+  var aliases = SHEET_TAB_ALIASES.Ikigai_Ham || [];
+  if (aliases.indexOf('10월 이키 재능') === -1) {
+    SHEET_TAB_ALIASES.Ikigai_Ham = aliases.concat(['10월 이키 재능']);
+  }
   TELEGRAM_NOTIFY_SHEETS.Ikigai_Ham = true;
   if (SHEET_SCHEMAS.Ikigai_Ham) return;
   var base = SHEET_SCHEMAS.Ikigai_Landing;
@@ -30,12 +35,12 @@ function setupIkigaiHamSheet() {
 function checkIkigaiHamReadiness() {
   registerIkigaiHamCampaign();
   var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = spreadsheet && spreadsheet.getSheetByName('10월 이키 재능');
-  if (!sheet) throw new Error('10월 이키 재능 접수 준비 상태를 확인할 수 없습니다.');
+  var sheet = spreadsheet && spreadsheet.getSheetByName('10월 이키 재능 햄찌');
+  if (!sheet) throw new Error('10월 이키 재능 햄찌 접수 준비 상태를 확인할 수 없습니다.');
   var headers = readHeaderRow(sheet);
   var complete = withCampaignMonthHeader(SHEET_SCHEMAS.Ikigai_Landing.headers).every(function (header) {
     return headers.indexOf(header) !== -1 && headers.indexOf(header) === headers.lastIndexOf(header);
   });
-  if (!complete) throw new Error('10월 이키 재능 접수 준비 상태를 확인할 수 없습니다.');
-  return { ok: true, ready: true, sheetId: 'Ikigai_Ham', sheet: '10월 이키 재능', schemaVersion: 'ikigai-ham-v1' };
+  if (!complete) throw new Error('10월 이키 재능 햄찌 접수 준비 상태를 확인할 수 없습니다.');
+  return { ok: true, ready: true, sheetId: 'Ikigai_Ham', sheet: '10월 이키 재능 햄찌', schemaVersion: 'ikigai-ham-v1' };
 }

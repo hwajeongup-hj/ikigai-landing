@@ -196,7 +196,7 @@ const AUDIENCE_ROUTES = {
   uni: { variant: '이키가이 가이드북 랜딩 / 대학생' },
   job: { variant: '이키가이 가이드북 랜딩 / 취준생' },
   worker: { variant: '이키가이 가이드북 랜딩 / 직장인' },
-  ham: { variant: '이키가이 가이드북 랜딩 / 햄찌', sheetTab: '10월 이키 재능', heroCharacter: 'hamster' },
+  ham: { variant: '이키가이 가이드북 랜딩 / 햄찌', sheetTab: 'Ikigai_Ham', heroCharacter: 'hamster' },
 };
 
 function resolveAudienceRoute(pathname) {
