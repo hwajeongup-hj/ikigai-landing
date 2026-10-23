@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
-import IkigaiLanding from './IkigaiLanding.jsx';
+
+// 새 시안의 스타일과 자산은 해당 경로에서만 불러옵니다.
+const GuideLanding = lazy(() => import('./GuideLanding.jsx'));
+const IkigaiLanding = lazy(() => import('./IkigaiLanding.jsx'));
+const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
+const isGuide = pathname === '/guide' || pathname === '/ikigai-landing/guide';
+const Landing = isGuide ? GuideLanding : IkigaiLanding;
 
 // 페이지 기본 여백 제거 — 섹션이 화면 끝까지 채워지도록
 const globalStyle = document.createElement('style');
@@ -24,6 +30,9 @@ document.head.appendChild(globalStyle);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <IkigaiLanding />
+    <Suspense fallback={<div role="status" style={{ padding: '48px 24px', color: '#245E4A' }}>페이지를 불러오고 있습니다.</div>}>
+      <Landing />
+    </Suspense>
   </React.StrictMode>
 );
+
