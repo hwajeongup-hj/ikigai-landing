@@ -38,4 +38,17 @@
   .guide-video-credit{font-size:12px!important}
   .guide-footer p{font-size:12px}
 }
+/* /guide에서만 문서 미리보기의 운영 브랜드를 표시합니다. 원본 이미지와 기존 경로는 유지합니다. */
+.guide-page .guide-rebranded-cover,.guide-page .guide-rebranded-page{position:relative;container-type:inline-size}
+.guide-page .guide-type-image .guide-rebranded-cover{width:74%;margin:0 auto}
+.guide-page .guide-type-image .guide-rebranded-cover img{width:100%;max-width:none;aspect-ratio:700/990;object-fit:contain;margin:0}
+.guide-page .guide-cover-brand{position:absolute;left:71.4%;width:16.8%;height:4.9%;display:flex;align-items:center;justify-content:center;background:#f6f3ef;color:#245e4a;font-size:3px;font-size:3cqw;font-weight:750;line-height:1;letter-spacing:0;white-space:nowrap;pointer-events:none}
+.guide-page .guide-rebranded-cover--01 .guide-cover-brand{top:88.65%}
+.guide-page .guide-rebranded-cover--02 .guide-cover-brand{top:86.6%}
+.guide-page .guide-rebranded-cover--03 .guide-cover-brand{top:85.05%}
+.guide-page .guide-rebranded-page{width:100%}
+.guide-page .guide-rebranded-page img{display:block}
+.guide-page .guide-page-brand{position:absolute;left:6.9%;top:5.65%;width:10.1%;height:2.85%;display:flex;align-items:center;justify-content:center;border-radius:999px;background:#2d887e;color:#fff;font-size:4px;font-size:1.45cqw;font-weight:750;line-height:1;letter-spacing:0;white-space:nowrap;pointer-events:none}
+.guide-page .guide-page-footer-brand{position:absolute;left:6.85%;top:96.45%;width:40%;height:1.55%;display:flex;align-items:center;background:#f7f9f8;color:#75817e;font-size:3px;font-size:1cqw;font-weight:500;line-height:1;letter-spacing:0;white-space:nowrap;pointer-events:none}
+@media(max-width:700px){.guide-page .guide-type-image .guide-rebranded-cover{width:88%;max-width:95px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}.guide-page *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}

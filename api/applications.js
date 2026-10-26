@@ -2,7 +2,7 @@ const DEFAULT_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwJNnO29D7h
 const MAX_BODY_BYTES = 12_000;
 const SHEET_ID = 'Ikigai_Landing';
 const CANONICAL_PAGE = 'https://ikigai-landing-three.vercel.app/guide';
-const CONSENT_VERSION = 'guide-v1-20261023';
+const CONSENT_VERSION = 'guide-v2-20261026';
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 function fail(message, status = 400) {

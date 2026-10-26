@@ -41,7 +41,7 @@ test('valid application is acknowledged only after storage response and uses fix
   assert.equal(sent['제출 ID'], valid.requestId);
   assert.equal(sent['동의 시각'], '2026-10-23T08:00:00.000Z');
   assert.equal(sent['개인정보 동의'], '동의');
-  assert.equal(sent['동의 문구 버전'], 'guide-v1-20261023');
+  assert.equal(sent['동의 문구 버전'], 'guide-v2-20261026');
   assert.equal(result.headers['Cache-Control'], 'no-store');
   assert.ok(result.calls[0].init.signal instanceof AbortSignal);
 });
